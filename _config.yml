@@ -21,8 +21,7 @@ highlight_theme: tomorrow # "default" (default), "tomorrow", "tomorrow-night", "
 url     : muclover.github.io/ # the base hostname & protocol for your site e.g. https://www.someone.com
 baseurl : # does not include hostname
 title   : Learning
-description: > # this means to ignore newlines until "Language & timezone"
-This is my first site, maybe some essays will appear here.
+description: test > # this means to ignore newlines until "Language & timezone"
 
 ## => Language and Timezone
 ##############################
