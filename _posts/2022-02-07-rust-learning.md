@@ -8,13 +8,15 @@ sidebar:
 
 # Rust
 ## Basic
-    Basic conception.
+Basic conception.
+
 ## Advanced
-    About computer system, network and practice.
+About computer system, network and practice.
 ## Data Structure and Algorithm
-    Some practices about data structure and algorithm.
+Some practices about data structure and algorithm.
 
 ## Toy projects
     Some toy projects. 
 
-## Resources
+{: .info}
+**密码学相关:** 主要与密码学、区块链相关
