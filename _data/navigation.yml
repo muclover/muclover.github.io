@@ -1,7 +1,7 @@
 header:
   - titles:
       # @start locale config
-      en      : &EN       Archive
+      en      : &EN       Posts
       en-GB   : *EN
       en-US   : *EN
       en-CA   : *EN
@@ -23,6 +23,25 @@ header:
       fr-LU   : *FR
       # @end locale config
     url: /archive.html
+
+  - titles:
+      en      : &EN       Learning
+    url: /learning.html
+  # - titles:
+  #     en      : &EN       Papers
+  #   url: /papers.html
+ 
+  - titles:
+      en      : &EN       SNARKs
+    url: /snarks.html
+
+  # - titles:
+  #     en      : &EN       CV
+  #   url: /files/cv.pdf
+ 
+  #- titles:
+  #    en      : &EN       "\"I workout\""
+  #  url: /iworkout.html
 
   - titles:
       # @start locale config
@@ -48,3 +67,54 @@ header:
       fr-LU   : *FR
       # @end locale config
     url: /about.html
+
+# NOTE: For some reason, only depth-1 nesting works here.
+# I tried using subfolderitems and subsubfolderitems with 'page' rather than 'title' but no luck
+# SNARKs:
+#   - title: Number Theory
+#     children:
+#       - title: Basic Group Theory
+#         url: /2021/04/15/basic-group-theory.html
+#       - title: Linear Diophantine Equations
+#         url: /2020/11/23/Linear-Diophantine-Equations.html
+#   - title: Group Theory
+#     url: /tbd.html
+#   #- title: Hashing
+#   #- title: Digital Signatures
+#   - title: basic conception
+#     children:
+#       - title: Cryptographic assumptions
+#         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
+
+#       - title: RSA Accumulators
+#         url: /2020/11/24/RSA-accumulators.html
+#   - title: zkSNARKs
+#     children:
+#     #  - title: Libert-Yung
+#     #    url: 
+
+#     #  - title: Kate-Zaverucha-Goldberg
+#     #    url: 
+#     #
+#     #  - title: aSVC
+#     #    url: 
+#       - title: PCPs
+#         url: /2021/06/17/Feist-Khovratovich-technique-for-computing-KZG-proofs-fast.html 
+
+#       - title: Pairing-based
+#         url: /drafts/2021-09-10-Pointproofs-Vector-Commitments.html # TODO: finalize and rename
+  
+#       - title: sumcheck
+#         url: /2020/11/24/Catalano-Fiore-Vector-Commitments.html
+#   - title: Polynomials
+#     children:
+#       - title: Basics of Polynomials
+#         url: /2020/03/16/polynomials-for-crypto.html
+
+#       - title: KZG Polynomial Commitments
+#         url: /2020/05/06/kzg-polynomial-commitments.html
+
+  #- title: (Zero-Knowledge) Proof Systems
+  #  children:
+  #    - title: Simulation
+  #      url: /2020/05/07/zero-knowledge-simulation.html
