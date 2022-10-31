@@ -151,3 +151,21 @@ theory:
         # url: /2020/05/06/kzg-polynomial-commitments.html
       - title: CKKS
         # url: /2020/05/06/kzg-polynomial-commitments.html
+blockchain:
+  - title: 区块链基础
+    children:
+      - title: 密码学基础
+      - title: 常用概念
+  - title: 比特币
+    children:
+      - title: 基本概念
+  - title: 以太坊
+    children:
+      - title: 基本概念
+      - title: 智能合约
+  - title: 其他话题
+    children:
+      - title: 共识
+      - title: 扩展性
+      - title: 隐私和安全
+      - title: 应用
