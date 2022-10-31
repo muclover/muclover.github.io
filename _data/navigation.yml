@@ -29,7 +29,7 @@ header:
     url: /blockchain.html
 
   - titles:
-      en      : &EN       theory
+      en      : &EN       Theory
     url: /theory.html
 
   - titles:
