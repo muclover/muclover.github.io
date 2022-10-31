@@ -1,6 +1,6 @@
 ---
 layout: article
-title: Blockchain
+# title: Blockchain
   # @start locale config
   # @end locale config
 key: page-blockchain
