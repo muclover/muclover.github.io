@@ -26,16 +26,20 @@ header:
 
   - titles:
       en      : &EN       Programming
+      zh-Hans : &ZH_HANS  归档
     url: /programming.html
   - titles:
       en      : &EN       Blockchain
+      zh-Hans : &ZH_HANS  归档
     url: /blockchain.html
  
   - titles:
       en      : &EN       Theory
+      zh-Hans : &ZH_HANS  归档
     url: /theory.html
   - titles:
       en      : &EN       Life
+      zh-Hans : &ZH_HANS  归档
     url: /life.html
 
   # - titles:
@@ -57,17 +61,6 @@ header:
       zh      : *ZH_HANS
       zh-CN   : *ZH_HANS
       zh-SG   : *ZH_HANS
-      zh-Hant : &ZH_HANT  關於
-      zh-TW   : *ZH_HANT
-      zh-HK   : *ZH_HANT
-      ko      : &KO       소개
-      ko-KR   : *KO
-      fr      : &FR       À propos
-      fr-BE   : *FR
-      fr-CA   : *FR
-      fr-CH   : *FR
-      fr-FR   : *FR
-      fr-LU   : *FR
       # @end locale config
     url: /about.html
 
@@ -77,7 +70,7 @@ theory:
   - title: Number Theory and Abstract Algebra
     children:
       - title: Basic Group Theory
-        # url: /2021/04/15/basic-group-theory.html
+        url: /2022/10/31/准备工作.html
       - title: 多项式基础
       - title: 椭圆曲线基础
         # url: /2020/11/23/Linear-Diophantine-Equations.html
@@ -93,36 +86,6 @@ theory:
 #         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
     - title: Others
 #         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
-  # - title: Group Theory
-    # url: /tbd.html
-  # - title: Hashing
-  # - title: Digital Signatures
-  # - title: basic conception
-
-#     children:
-#       - title: Cryptographic assumptions
-#         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
-
-#       - title: RSA Accumulators
-#         url: /2020/11/24/RSA-accumulators.html
-#   - title: zkSNARKs
-#     children:
-#     #  - title: Libert-Yung
-#     #    url: 
-
-#     #  - title: Kate-Zaverucha-Goldberg
-#     #    url: 
-#     #
-#     #  - title: aSVC
-#     #    url: 
-#       - title: PCPs
-#         url: /2021/06/17/Feist-Khovratovich-technique-for-computing-KZG-proofs-fast.html 
-
-#       - title: Pairing-based
-#         url: /drafts/2021-09-10-Pointproofs-Vector-Commitments.html # TODO: finalize and rename
-  
-#       - title: sumcheck
-#         url: /2020/11/24/Catalano-Fiore-Vector-Commitments.html
   - title: (Zero-Knowledge) Proof Systems
    children:
      - title: 基本概念
