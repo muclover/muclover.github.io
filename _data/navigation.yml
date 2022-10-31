@@ -68,27 +68,27 @@ header:
 
 # NOTE: For some reason, only depth-1 nesting works here.
 # I tried using subfolderitems and subsubfolderitems with 'page' rather than 'title' but no luck
-theory:
-  - title: Number Theory and Abstract Algebra 数学理论
-    children:
-      - title: Basic Group Theory
-      - title: 多项式基础
-      - title: 椭圆曲线基础
+# theory:
+#   - title: Number Theory and Abstract Algebra 数学理论
+#     children:
+#       - title: Basic Group Theory
+#       - title: 多项式基础
+#       - title: 椭圆曲线基础
 
-  - title: 密码学
-    children:
-      - title: 基础概念
-      - title: 哈希
-      - title: 加密和解密
-      - title: 签名
-      - title: Others
+#   - title: 密码学
+#     children:
+#       - title: 基础概念
+#       - title: 哈希
+#       - title: 加密和解密
+#       - title: 签名
+#       - title: Others
 
-  - title: (Zero-Knowledge) Proof Systems
-   children:
-     - title: 基本概念
-     - title: IP-based proof
-     - title: SNARKs
-     - title: PLONK
+#   - title: (Zero-Knowledge) Proof Systems
+#    children:
+#      - title: 基本概念
+#      - title: IP-based proof
+#      - title: SNARKs
+#      - title: PLONK
 
   # - title: MPC
   #   children:
