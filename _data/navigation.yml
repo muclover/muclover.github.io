@@ -73,18 +73,32 @@ header:
 
 # NOTE: For some reason, only depth-1 nesting works here.
 # I tried using subfolderitems and subsubfolderitems with 'page' rather than 'title' but no luck
-# SNARKs:
-#   - title: Number Theory
-#     children:
-#       - title: Basic Group Theory
-#         url: /2021/04/15/basic-group-theory.html
-#       - title: Linear Diophantine Equations
-#         url: /2020/11/23/Linear-Diophantine-Equations.html
-#   - title: Group Theory
-#     url: /tbd.html
-#   #- title: Hashing
-#   #- title: Digital Signatures
-#   - title: basic conception
+theory:
+  - title: Number Theory and Abstract Algebra
+    children:
+      - title: Basic Group Theory
+        # url: /2021/04/15/basic-group-theory.html
+      - title: 多项式基础
+      - title: 椭圆曲线基础
+        # url: /2020/11/23/Linear-Diophantine-Equations.html
+  - title: 密码学
+    children:
+    - title: 基础概念
+#         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
+    - title: 哈希
+#         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
+    - title: 加密和解密
+#         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
+    - title: 签名
+#         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
+    - title: Others
+#         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
+  # - title: Group Theory
+    # url: /tbd.html
+  # - title: Hashing
+  # - title: Digital Signatures
+  # - title: basic conception
+
 #     children:
 #       - title: Cryptographic assumptions
 #         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
@@ -109,15 +123,31 @@ header:
   
 #       - title: sumcheck
 #         url: /2020/11/24/Catalano-Fiore-Vector-Commitments.html
-#   - title: Polynomials
-#     children:
-#       - title: Basics of Polynomials
-#         url: /2020/03/16/polynomials-for-crypto.html
+  - title: (Zero-Knowledge) Proof Systems
+   children:
+     - title: 基本概念
+      #  url: /2020/05/07/zero-knowledge-simulation.html
+     - title: IP-based proof
+      #  url: /2020/05/07/zero-knowledge-simulation.html
+     - title: SNARKs
+      #  url: /2020/05/07/zero-knowledge-simulation.html
+     - title: PLONK
+      #  url: /2020/05/07/zero-knowledge-simulation.html
 
-#       - title: KZG Polynomial Commitments
-#         url: /2020/05/06/kzg-polynomial-commitments.html
+  - title: MPC
+    children:
+      - title: MPC基础
+        # url: /2020/03/16/polynomials-for-crypto.html
+      - title: OT和秘密分享
+        # url: /2020/05/06/kzg-polynomial-commitments.html
+      - title: 混淆电路和MPC
+        # url: /2020/05/06/kzg-polynomial-commitments.html
 
-  #- title: (Zero-Knowledge) Proof Systems
-  #  children:
-  #    - title: Simulation
-  #      url: /2020/05/07/zero-knowledge-simulation.html
+  - title: HE
+    children:
+      - title: HE基础
+        # url: /2020/05/06/kzg-polynomial-commitments.html
+      - title: BFV
+        # url: /2020/05/06/kzg-polynomial-commitments.html
+      - title: CKKS
+        # url: /2020/05/06/kzg-polynomial-commitments.html
