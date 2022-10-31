@@ -52,8 +52,8 @@ header:
       en      : &EN       About
     url: /about.html
 
-NOTE: For some reason, only depth-1 nesting works here.
-I tried using subfolderitems and subsubfolderitems with 'page' rather than 'title' but no luck
+# NOTE: For some reason, only depth-1 nesting works here.
+# I tried using subfolderitems and subsubfolderitems with 'page' rather than 'title' but no luck
 theory:
   - title: Number Theory and Abstract Algebra 数学理论
     children:
