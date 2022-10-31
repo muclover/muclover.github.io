@@ -75,52 +75,53 @@ theory:
       # - title: 椭圆曲线基础
         # url: /2020/11/23/Linear-Diophantine-Equations.html
 
-  - title: 密码学
-    children:
-    - title: 基础概念
-#         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
-    - title: 哈希
-#         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
-    - title: 加密和解密
-#         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
-    - title: 签名
-#         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
-    - title: Others
-#         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
+#   - title: 密码学
+#     children:
+#     - title: 基础概念
+# #         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
+#     - title: 哈希
+# #         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
+#     - title: 加密和解密
+# #         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
+#     - title: 签名
+# #         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
+#     - title: Others
+# #         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
 
-  - title: (Zero-Knowledge) Proof Systems
-   children:
-     - title: 基本概念
-      #  url: /2020/05/07/zero-knowledge-simulation.html
-     - title: IP-based proof
-      #  url: /2020/05/07/zero-knowledge-simulation.html
-     - title: SNARKs
-      #  url: /2020/05/07/zero-knowledge-simulation.html
-     - title: PLONK
-      #  url: /2020/05/07/zero-knowledge-simulation.html
+#   - title: (Zero-Knowledge) Proof Systems
+#    children:
+#      - title: 基本概念
+#       #  url: /2020/05/07/zero-knowledge-simulation.html
+#      - title: IP-based proof
+#       #  url: /2020/05/07/zero-knowledge-simulation.html
+#      - title: SNARKs
+#       #  url: /2020/05/07/zero-knowledge-simulation.html
+#      - title: PLONK
+#       #  url: /2020/05/07/zero-knowledge-simulation.html
 
-  - title: MPC
-    children:
-      - title: MPC基础
-        # url: /2020/03/16/polynomials-for-crypto.html
-      - title: OT和秘密分享
-        # url: /2020/05/06/kzg-polynomial-commitments.html
-      - title: 混淆电路和MPC
-        # url: /2020/05/06/kzg-polynomial-commitments.html
+#   - title: MPC
+#     children:
+#       - title: MPC基础
+#         # url: /2020/03/16/polynomials-for-crypto.html
+#       - title: OT和秘密分享
+#         # url: /2020/05/06/kzg-polynomial-commitments.html
+#       - title: 混淆电路和MPC
+#         # url: /2020/05/06/kzg-polynomial-commitments.html
 
-  - title: HE
-    children:
-      - title: HE基础
-        # url: /2020/05/06/kzg-polynomial-commitments.html
-      - title: BFV
-        # url: /2020/05/06/kzg-polynomial-commitments.html
-      - title: CKKS
-        # url: /2020/05/06/kzg-polynomial-commitments.html
+#   - title: HE
+#     children:
+#       - title: HE基础
+#         # url: /2020/05/06/kzg-polynomial-commitments.html
+#       - title: BFV
+#         # url: /2020/05/06/kzg-polynomial-commitments.html
+#       - title: CKKS
+#         # url: /2020/05/06/kzg-polynomial-commitments.html
 
 blockchain:
   - title: 区块链基础
     children:
       - title: 密码学基础
+
       - title: 常用概念
 
   - title: 比特币
@@ -131,7 +132,7 @@ blockchain:
     children:
       - title: 基本概念
       - title: 智能合约
-      
+
   - title: 其他话题
     children:
       - title: 共识
