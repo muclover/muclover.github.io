@@ -12,6 +12,6 @@ titles: Programming
   zh-CN   : *ZH_HANS
   zh-SG   : *ZH_HANS
   # @end locale config
-key: page-about
+key: page-programming
 ---
 记录学习编程中的问题。

@@ -12,6 +12,6 @@ titles: Theory
   zh-CN   : *ZH_HANS
   zh-SG   : *ZH_HANS
   # @end locale config
-key: page-about
+key: page-theory
 ---
 记录密码学学习相关的总结。

@@ -12,6 +12,6 @@ titles: Theory
   zh-CN   : *ZH_HANS
   zh-SG   : *ZH_HANS
   # @end locale config
-key: page-about
+key: page-life
 ---
 记录生活。
