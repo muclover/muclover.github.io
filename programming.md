@@ -1,6 +1,6 @@
 ---
 layout: article
-titles: Programming 编程
+title: Programming 编程
   # @start locale config
   en      : &EN       About
   en-GB   : *EN

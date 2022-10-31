@@ -1,6 +1,6 @@
 ---
 layout: article
-titles: Life 生活
+title: Life 生活
   # @start locale config
   en      : &EN       About
   en-GB   : *EN
