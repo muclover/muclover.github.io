@@ -74,6 +74,7 @@ theory:
       # - title: 多项式基础
       # - title: 椭圆曲线基础
         # url: /2020/11/23/Linear-Diophantine-Equations.html
+
   - title: 密码学
     children:
     - title: 基础概念
@@ -86,6 +87,7 @@ theory:
 #         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
     - title: Others
 #         url: /2020/11/05/cryptographic-assumptions-in-hidden-order-groups.html
+
   - title: (Zero-Knowledge) Proof Systems
    children:
      - title: 基本概念
@@ -120,13 +122,16 @@ blockchain:
     children:
       - title: 密码学基础
       - title: 常用概念
+
   - title: 比特币
     children:
       - title: 基本概念
+
   - title: 以太坊
     children:
       - title: 基本概念
       - title: 智能合约
+      
   - title: 其他话题
     children:
       - title: 共识
