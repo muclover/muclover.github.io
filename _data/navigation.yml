@@ -25,15 +25,15 @@ header:
     url: /archive.html
 
   - titles:
-      en      : &EN       Learning
-    url: /learning.html
-  # - titles:
-  #     en      : &EN       Papers
-  #   url: /papers.html
+      en      : &EN       Programming
+    url: /programming.html
+  - titles:
+      en      : &EN       Blockchain
+    url: /blockchain.html
  
   - titles:
-      en      : &EN       SNARKs
-    url: /snarks.html
+      en      : &EN       Theory
+    url: /theory.html
 
   # - titles:
   #     en      : &EN       CV
