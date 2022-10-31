@@ -25,10 +25,6 @@ header:
     url: /archive.html
 
   - titles:
-      en      : &EN       Programming
-      zh-Hans : &ZH_HANS  编程
-    url: /programming.html
-  - titles:
       en      : &EN       Blockchain
       zh-Hans : &ZH_HANS  区块链
     url: /blockchain.html
@@ -37,6 +33,12 @@ header:
       en      : &EN       Theory
       zh-Hans : &ZH_HANS  理论
     url: /theory.html
+
+  - titles:
+      en      : &EN       Programming
+      zh-Hans : &ZH_HANS  编程
+    url: /programming.html
+
   - titles:
       en      : &EN       Life
       zh-Hans : &ZH_HANS  生活
