@@ -27,9 +27,9 @@ header:
   - titles:
       en      : &EN       Blockchain
     url: /blockchain.html
- 
+
   - titles:
-      en      : &EN       Theory
+      en      : &EN       theory
     url: /theory.html
 
   - titles:
