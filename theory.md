@@ -16,6 +16,7 @@ key: page-theory
 side-bar:
     nav: theory
 ---
+
 This is a work-in-progress document, meant to summarize various concepts in cryptography and other theory topic.
 
 You can navigate to various topics by using the sidebar on the left.

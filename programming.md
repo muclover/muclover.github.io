@@ -1,6 +1,6 @@
 ---
 layout: article
-titles: Programming
+titles: Programming 编程
   # @start locale config
   en      : &EN       About
   en-GB   : *EN
@@ -14,4 +14,5 @@ titles: Programming
   # @end locale config
 key: page-programming
 ---
+
 记录学习编程中的问题。

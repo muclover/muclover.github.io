@@ -1,6 +1,6 @@
 ---
 layout: article
-titles: Theory
+titles: Life 生活
   # @start locale config
   en      : &EN       About
   en-GB   : *EN
@@ -14,6 +14,7 @@ titles: Theory
   # @end locale config
 key: page-life
 ---
+
 记录生活。
 # 2022-10-31 22:20:55
 今天开始搭建自己的Blog，以后有机会就记录一下日常学习和生活。

@@ -1,6 +1,7 @@
 ---
 tags: rust
 title: Rusting Learning
+date: 2022-10-31 22:24:54
 #published: false
 sidebar:
     nav: theory
