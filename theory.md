@@ -1,8 +1,6 @@
 ---
 layout: article
 # title: Theory 
-  # @start locale config
-  # @end locale config
 key: page-theory
 sidebar:
     nav: theory
