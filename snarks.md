@@ -1,6 +1,6 @@
 ---
 layout: article
-title: The SNARKs
+title: Notes
 key: page-snarks
 #article_header:
 #  type: cover
