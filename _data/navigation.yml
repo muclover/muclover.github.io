@@ -56,7 +56,7 @@ header:
 theory:
   - title: 数学
     children:
-      - title: Basic Group Theory
+      - title: 代数和数论
       - title: 多项式基础
       - title: 椭圆曲线基础
 
