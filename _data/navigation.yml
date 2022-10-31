@@ -69,13 +69,13 @@ header:
 # NOTE: For some reason, only depth-1 nesting works here.
 # I tried using subfolderitems and subsubfolderitems with 'page' rather than 'title' but no luck
 theory:
-  - title: Number Theory and Abstract Algebra
+  - title: Number Theory and Abstract Algebra 数学理论
     children:
       - title: Basic Group Theory
-        url: /2022/02/07/welcome.html
+        # url: /2022/02/07/welcome.html
       - title: 多项式基础
       - title: 椭圆曲线基础
-        url: /2020/11/23/Linear-Diophantine-Equations.html
+        # url: /2020/11/23/Linear-Diophantine-Equations.html
 
   - title: 密码学
     children:
