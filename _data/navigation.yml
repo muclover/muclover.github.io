@@ -68,42 +68,40 @@ theory:
       - title: 签名
       - title: Others
 
-#   - title: (Zero-Knowledge) Proof Systems
-#    children:
-#      - title: 基本概念
-#      - title: IP-based proof
-#      - title: SNARKs
-#      - title: PLONK
+  - title: (Zero-Knowledge) Proof Systems
+   children:
+     - title: 基本概念
+     - title: IP-based proof
+     - title: SNARKs
+     - title: PLONK
 
-  # - title: MPC
-  #   children:
-  #     - title: MPC基础
-  #       # url: /2020/03/16/polynomials-for-crypto.html
-  #     - title: OT和秘密分享
-  #       # url: /2020/05/06/kzg-polynomial-commitments.html
-  #     - title: 混淆电路和MPC
-  #       # url: /2020/05/06/kzg-polynomial-commitments.html
+  - title: MPC
+    children:
+      - title: MPC基础
+        # url: /2020/03/16/polynomials-for-crypto.html
+      - title: OT和秘密分享
+        # url: /2020/05/06/kzg-polynomial-commitments.html
+      - title: 混淆电路和MPC
+        # url: /2020/05/06/kzg-polynomial-commitments.html
 
-  # - title: HE
-  #   children:
-  #     - title: HE基础
-  #       # url: /2020/05/06/kzg-polynomial-commitments.html
-  #     - title: BFV
-  #       # url: /2020/05/06/kzg-polynomial-commitments.html
-  #     - title: CKKS
-  #       # url: /2020/05/06/kzg-polynomial-commitments.html
+  - title: HE
+    children:
+      - title: HE基础
+      - title: BFV
+        # url: /2020/05/06/kzg-polynomial-commitments.html
+      - title: CKKS
+        # url: /2020/05/06/kzg-polynomial-commitments.html
 
 blockchain:
   - title: 区块链基础
     children:
       - title: 密码学基础
-
       - title: 常用概念
 
   - title: 比特币
     children:
       - title: 基本概念
-
+  
   - title: 以太坊
     children:
       - title: 基本概念
