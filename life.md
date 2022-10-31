@@ -14,4 +14,4 @@ titles: Theory
   # @end locale config
 key: page-about
 ---
-记录密码学学习相关的总结。
+记录生活。

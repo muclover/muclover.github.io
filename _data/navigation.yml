@@ -34,6 +34,9 @@ header:
   - titles:
       en      : &EN       Theory
     url: /theory.html
+  - titles:
+      en      : &EN       Life
+    url: /life.html
 
   # - titles:
   #     en      : &EN       CV

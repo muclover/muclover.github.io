@@ -1,11 +1,17 @@
 ---
 layout: article
-titles:
+titles: Programming
   # @start locale config
-  en      : &EN       Learning
+  en      : &EN       About
+  en-GB   : *EN
+  en-US   : *EN
+  en-CA   : *EN
+  en-AU   : *EN
+  zh-Hans : &ZH_HANS  关于
+  zh      : *ZH_HANS
+  zh-CN   : *ZH_HANS
+  zh-SG   : *ZH_HANS
   # @end locale config
-key: learning
+key: page-about
 ---
-
-#### learning
-
+记录学习编程中的问题。
