@@ -1,5 +1,5 @@
 ---
-tags: rust programming
+tags: rust
 title: Rusting Learning
 #published: false
 sidebar:
