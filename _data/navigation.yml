@@ -67,12 +67,14 @@ theory:
       - title: 加密和解密
       - title: 签名
       - title: Others
-  - title: (Zero-Knowledge) Proof Systems
+
+  - title: Zero-Knowledge Proof Systems
     children:
-      - title: 基本概念
+      - title: 基础概念
       - title: IP-based proof
       - title: SNARKs
       - title: PLONK
+      - title: STARKs
 
   - title: MPC
     children:
