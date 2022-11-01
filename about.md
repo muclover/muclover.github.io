@@ -11,3 +11,5 @@ key: page-about
 
 I am a master student in Jinan University, majoring in cyberspace security.
 This is my blog to record daily life and a summary of learning.
+
+于浩歌狂热之际中寒，于天上看见深渊。
