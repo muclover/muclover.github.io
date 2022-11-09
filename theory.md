@@ -54,15 +54,18 @@ ZKEVM
 ### 零知识证明
 #### 资源
 [很全的ZKP资源](https://github.com/ingonyama-zk/ingopedia)
+
 我的推荐：
+
 thaler's book：[Proofs, Arguments, and Zero-knowledge](https://people.cs.georgetown.edu/jthaler/ProofsArgsAndZK.html)
 - 很全面的书，涉及到了 ZKP 的方方面面
 the moon-math:[moonmath](https://github.com/LeastAuthority/moonmath-manual)
 - 椭圆曲线部分很好
 
 #### 项目
-[thaler's book 实现](https://github.com/thor314/pazk)：很久没更新了，有机会看看能不能参与一下。
-[STARK 的 rust 实现](https://github.com/0xProject/OpenZKP)
+- [thaler's book 实现](https://github.com/thor314/pazk)：很久没更新了，有机会看看能不能参与一下。
+
+- [STARK 的 rust 实现](https://github.com/0xProject/OpenZKP)
 #### Paper
 
 
