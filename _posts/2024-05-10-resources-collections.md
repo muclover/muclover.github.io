@@ -1,9 +1,7 @@
 ---
-tags: Learning
-title: Test 
-date: 2022-10-31 10:38:00
-sidebar:
-    nav: programming
+tags: Study
+title: 一些开源相关的Blog、学习资源、新闻资讯 
+date: 2024-05-10 08:50:54
 ---
 # 概述
 收集一些开源相关的Blog、资源以及各类教程，主要包括以下内容：
