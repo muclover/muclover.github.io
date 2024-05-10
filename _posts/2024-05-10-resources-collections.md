@@ -100,12 +100,11 @@ Web 开发的历史：[Web Development History](https://webdevelopmenthistory.co
 [Awesome LLM](https://github.com/Hannibal046/Awesome-LLM)
 
 # 微信公众号
-- 得物技术
-- 转转前端周刊
-- 腾讯技术指南
+- [得物技术](https://tech.dewu.com/)
+- [转转前端周刊](https://blog.csdn.net/p6p7qsw6ua47a2sb)
+- [腾讯技术指南](https://www.zhihu.com/org/teng-xun-ji-zhu-gong-cheng/posts)
+- [美团技术](https://tech.meituan.com/)
 - 阿里技术
-- 美团技术
-
 
 
 # 学习资源
