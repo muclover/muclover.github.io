@@ -5,11 +5,16 @@ title:
   # @end locale config
 key: page-about
 ---
+这是我用于记录日常生活和学习的地方。
 
-我的兴趣包括密码学、区块链，尤其是零知识证明等隐私增强技术的应用。
-我熟悉 c++、Rust 等语言，还在开发的学习之中，目标是做一个自己的密码学工具库。
+2023年毕业于暨南大学网络空间安全专业。在学校我的兴趣包括密码学、区块链，尤其是零知识证明等隐私增强技术的应用。
+现在是一个通用软件工程师，工作内容主要是 Web 开发的前后端，主要使用 Java 和 JS，相关的框架为 Spring 全家桶、Vue 等。偶尔使用 Python 写写脚本。
+在工作前，我在学校一直使用 c++ 来构筑我的工作，所以我对 c++ 也很熟悉。最近我对 Rust 很感兴趣。
 
-I am a master student in Jinan University, majoring in cyberspace security.
-This is my blog to record daily life and a summary of learning.
+In 2023, I receive a master's degree in cyberspace security from Jinan University.
 
-于浩歌狂热之际中寒，于天上看见深渊。
+I am currently working as a General Software Engineer, mainly doing web development, both front-end and back-end. I mainly use Java and JS in my work, and related frameworks such as Spring, Vue, etc. Meanwhile, I have been using cpp in school, and I am also interested in Rust.
+
+This is the place I use to keep track of my daily life and studies.
+
+于浩歌狂热之际中寒，于天上看见深渊 —— 鲁迅。
