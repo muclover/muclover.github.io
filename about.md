@@ -7,8 +7,7 @@ key: page-about
 ---
 这是我用于记录日常生活和学习的地方。
 
-2023年毕业于暨南大学网络空间安全专业。在学校我的兴趣包括密码学、区块链，尤其是零知识证明等隐私增强技术的应用。
-现在是一个通用软件工程师，工作内容主要是 Web 开发的前后端，主要使用 Java 和 JS，相关的框架为 Spring 全家桶、Vue 等。偶尔使用 Python 写写脚本。
+现在的职业是一个通用软件工程师，工作内容主要是 Web 开发的前后端，主要使用 Java 和 JS，相关的框架为 Spring 全家桶、Vue 等。偶尔使用 Python 写写脚本。
 在工作前，我在学校一直使用 c++ 来构筑我的工作，所以我对 c++ 也很熟悉。最近我对 Rust 很感兴趣。
 
 In 2023, I receive a master's degree in cyberspace security from Jinan University.
