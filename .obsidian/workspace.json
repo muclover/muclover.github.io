@@ -1,0 +1,156 @@
+{
+  "main": {
+    "id": "b0cff64eafe51d5c",
+    "type": "split",
+    "children": [
+      {
+        "id": "a63fb54339fa02c0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "842faf268732bb4b",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "fd86a025f2d2dd8b",
+    "type": "split",
+    "children": [
+      {
+        "id": "a7ca548b7a3601a8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e256c6405253fa0f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "630202fd2fe6a312",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "7c82c9e24df29593",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "82a156c214d9b873",
+    "type": "split",
+    "children": [
+      {
+        "id": "5eda174e50dddd2d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2ecd47cb55c2db9f",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "cbda5cf04757e6e4",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "c312bb981bb76a11",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "8ee8041d2d8a7712",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false
+    }
+  },
+  "active": "842faf268732bb4b",
+  "lastOpenFiles": [
+    "0-myfile/1-JS/js.md",
+    "0-myfile/README.md",
+    "0-myfile/8-工具",
+    "0-myfile/7-算法",
+    "0-myfile/6-AI和Python",
+    "0-myfile/5-软件工程",
+    "0-myfile/4-系统设计",
+    "0-myfile/3-Java",
+    "0-myfile/2-Rust",
+    "0-myfile/1-JS",
+    "0-myfile",
+    "myfile"
+  ]
+}
