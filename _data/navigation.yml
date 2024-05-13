@@ -1,7 +1,7 @@
 header:
   - titles:
       # @start locale config
-      en      : &EN       Posts
+      en      : &EN       Archive
       en-GB   : *EN
       en-US   : *EN
       en-CA   : *EN
@@ -24,12 +24,17 @@ header:
       # @end locale config
     url: /archive.html
 
+  # - titles:
+  #     en      : &EN       Blockchain
+  #   url: /blockchain.html
+
+  # - titles:
+  #     en      : &EN       Theory
+  #   url: /theory.html
+
   - titles:
-      en      : &EN       Blockchain
-    url: /blockchain.html
-  - titles:
-      en      : &EN       Theory
-    url: /theory.html
+      en      : &EN       Java
+    url: /directory/java.html
 
   - titles:
       en      : &EN       Programming
@@ -53,6 +58,30 @@ header:
 
 # NOTE: For some reason, only depth-1 nesting works here.
 # I tried using subfolderitems and subsubfolderitems with 'page' rather than 'title' but no luck
+java:
+  - title: 基础
+    children:
+      - title: 语法
+      - title: 多线程
+      - title: IO
+  - title: 框架
+    children:
+      - title: Spring
+      - title: Spring MCV
+      - title: Spring Boot
+      - title: Spring Security
+      - title: Spring Cloud
+
+  - title: 中间件
+    children:
+      - title: RabbitMQ
+      - title: Kafka
+
+  - title: 项目
+    children:
+      - title: 抽奖项目
+      - title: 网关
+
 theory:
   - title: 数学
     children:
