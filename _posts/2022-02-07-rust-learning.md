@@ -1,7 +1,7 @@
 ---
 tags: Rust
 title: Rusting Learning
-date: 2024-05-14 15:40:19
+published: false
 ---
 
 # Rust

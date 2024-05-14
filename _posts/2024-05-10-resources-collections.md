@@ -1,7 +1,9 @@
 ---
 title: 一些开源相关的Blog、学习资源、新闻资讯 
-tags: Study
-data: 2024-05-10 08:50:54
+tags: Resource
+# date: 2024-05-10 08:50:54
+# aside:  # 表示不显示侧边栏
+#   toc: false
 ---
 
 # 概述
