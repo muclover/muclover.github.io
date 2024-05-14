@@ -1,26 +1,26 @@
 header:
   - titles:
       # @start locale config
-      en      : &EN       Archive
-      en-GB   : *EN
-      en-US   : *EN
-      en-CA   : *EN
-      en-AU   : *EN
-      zh-Hans : &ZH_HANS  归档
-      zh      : *ZH_HANS
-      zh-CN   : *ZH_HANS
-      zh-SG   : *ZH_HANS
-      zh-Hant : &ZH_HANT  歸檔
-      zh-TW   : *ZH_HANT
-      zh-HK   : *ZH_HANT
-      ko      : &KO       아카이브
-      ko-KR   : *KO
-      fr      : &FR       Archives
-      fr-BE   : *FR
-      fr-CA   : *FR
-      fr-CH   : *FR
-      fr-FR   : *FR
-      fr-LU   : *FR
+      en: &EN Archive
+      en-GB: *EN
+      en-US: *EN
+      en-CA: *EN
+      en-AU: *EN
+      zh-Hans: &ZH_HANS 归档
+      zh: *ZH_HANS
+      zh-CN: *ZH_HANS
+      zh-SG: *ZH_HANS
+      zh-Hant: &ZH_HANT 歸檔
+      zh-TW: *ZH_HANT
+      zh-HK: *ZH_HANT
+      ko: &KO 아카이브
+      ko-KR: *KO
+      fr: &FR Archives
+      fr-BE: *FR
+      fr-CA: *FR
+      fr-CH: *FR
+      fr-FR: *FR
+      fr-LU: *FR
       # @end locale config
     url: /archive.html
 
@@ -33,37 +33,65 @@ header:
   #   url: /theory.html
 
   - titles:
-      en      : &EN       Java
+      en: &EN Tools
+    url: /directory/tools.html
+  
+  - titles:
+      en: &EN LLM
+    url: /directory/llm.html
+
+  - titles:
+      en: &EN Java
     url: /directory/java.html
 
   - titles:
-      en      : &EN       Programming
-    url: /programming.html
+      en: &EN Web
+    url: /directory/web.html
 
   - titles:
-      en      : &EN       Life
-    url: /life.html
+      en: &EN Rust
+    url: /directory/rust.html
+
+  - titles:
+      en: &EN Life
+    url: /directory/life.html
+
 
   # - titles:
   #     en      : &EN       CV
   #   url: /files/cv.pdf
- 
-  #- titles:
-  #    en      : &EN       "\"I workout\""
-  #  url: /iworkout.html
 
   - titles:
-      en      : &EN       About
-    url: /about.html
+      en: &EN About
+    url: /directory/about.html
 
 # NOTE: For some reason, only depth-1 nesting works here.
 # I tried using subfolderitems and subsubfolderitems with 'page' rather than 'title' but no luck
+tools:
+  - title: Git
+    children:
+      - title: 内容
+  
+  - title: Docker
+    children:
+      - title: 内容  
+
+  - title: K8S
+    children:
+      - title: 内容
+
+  - title: Linux
+    children:
+      - title: Shell
+      - title: vim/neovim
+
 java:
   - title: 基础
     children:
       - title: 语法
       - title: 多线程
       - title: IO
+
   - title: 框架
     children:
       - title: Spring
@@ -126,7 +154,7 @@ blockchain:
   - title: 比特币
     children:
       - title: 基本概念
-  
+
   - title: 以太坊
     children:
       - title: 基本概念

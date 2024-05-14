@@ -3,13 +3,14 @@ layout: article
 # title: Life 生活
 key: page-life
 aside:
-    toc: true
+  toc: true
 ---
 
 记录生活。
 # 2024-05-10 08:09:29
 重新开始 Blog
 back
+
 
 # 2022-11-01 10:30:54
 终于成功的搭建成功了，但是感觉写文章没那么方便，以后再去优化了。

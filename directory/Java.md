@@ -1,8 +1,16 @@
 ---
 layout: article
-title: Java
+# title: 
+tags: ["Java", "Study"]
+date: 2024-05-13 14:17:35
 key: page-java
 sidebar:
   nav: java
+aside:
+  toc: true
 ---
-记录 Java 的学习内容。
+
+# Java
+这是 Java 文件
+
+测试一下

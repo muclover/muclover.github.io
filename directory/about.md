@@ -1,9 +1,9 @@
 ---
 layout: article
 title: 
-  # @start locale config
-  # @end locale config
 key: page-about
+aside:
+  toc: true
 ---
 这是我用于记录日常生活和学习的地方。
 

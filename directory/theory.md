@@ -1,13 +1,10 @@
 ---
 layout: article
-# title: Blockchain
-  # @start locale config
-  # @end locale config
 key: page-theory
 sidebar:
-    nav: theory
+  nav: theory
 aside:
-    toc: true
+  toc: true  
 ---
 
 2024-05-10 15:54:20：更新状态，已经毕业了，理论部分接触较少，当初的笔记也没时间整理了，暂时归档。
