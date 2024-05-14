@@ -1,13 +1,12 @@
 ---
-tags: rust
+tags: Rust
 title: Rusting Learning
-date: 2022-10-31 22:24:54
-#published: false
-sidebar:
-    nav: theory
+date: 2024-05-14 15:40:19
 ---
 
 # Rust
+2024-05-13 14:44:59 TODO
+
 ## Basic
 Basic conception.
 
