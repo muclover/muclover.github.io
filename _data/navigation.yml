@@ -90,7 +90,7 @@ java:
     children:
       - title: 语法
       - title: 多线程
-      - title: IO
+      - title: IO和Netty
 
   - title: 框架
     children:
@@ -104,11 +104,6 @@ java:
     children:
       - title: RabbitMQ
       - title: Kafka
-
-  - title: 项目
-    children:
-      - title: 抽奖项目
-      - title: 网关
 
 theory:
   - title: 数学
@@ -166,3 +161,9 @@ blockchain:
       - title: 扩展性
       - title: 隐私和安全
       - title: 应用
+
+llm:
+  - title: 基础
+    children:
+      - title: Python
+      - title: LLM概述
