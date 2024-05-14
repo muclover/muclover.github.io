@@ -1,7 +1,7 @@
 ---
 layout: article
-key: page-tools
 tags: ["Tools", "Study"]
+key: page-tools
 sidebar:
   nav: tools
 aside:

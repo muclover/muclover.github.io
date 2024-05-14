@@ -1,8 +1,6 @@
 ---
 layout: article
-# title: 
 tags: ["Java", "Study"]
-date: 2024-05-13 14:17:35
 key: page-java
 sidebar:
   nav: java
