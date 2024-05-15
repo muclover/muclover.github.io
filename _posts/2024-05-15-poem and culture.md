@@ -1,6 +1,6 @@
 ---
-title: 
-tags: Archive
+title: 诗词、文学作品等记录
+tags: Archive Life
 # date: 2024-05-15 10:13:01
 # sidebar:
 #  nav: llm
