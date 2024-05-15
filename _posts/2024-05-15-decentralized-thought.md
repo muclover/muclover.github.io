@@ -1,6 +1,6 @@
 ---
 title: Decentralized Thoughts - Decentralized thoughts about decentralization Note
-tags: Archive
+tags: Archive Theory Cryptography
 # date: 2024-05-15 09:42:24
 # sidebar:
 #  nav: llm
@@ -8,9 +8,10 @@ tags: Archive
 # aside:
 #  toc: true
 ---
+以前的记录，同步过来。
 
-区块链 密码学相关的知识
 [Decentralized Thoughts - Decentralized thoughts about decentralization](https://decentralizedthoughts.github.io/)
+- 区块链 密码学相关的知识
 
 # 密码学
 ## What is a cryptographic hash function?
