@@ -49,7 +49,7 @@ header:
   #   url: /directory/web.html
 
   - titles:
-      en: &EN Web
+      en: &EN Basic
     url: /directory/csbasic.html
 
   - titles:
