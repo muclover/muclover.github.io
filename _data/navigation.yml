@@ -40,13 +40,17 @@ header:
       en: &EN LLM
     url: /directory/llm.html
 
-  - titles:
-      en: &EN Java
-    url: /directory/java.html
+  # - titles:
+  #     en: &EN Java
+  #   url: /directory/java.html
+
+  # - titles:
+  #     en: &EN Web
+  #   url: /directory/web.html
 
   - titles:
       en: &EN Web
-    url: /directory/web.html
+    url: /directory/csbasic.html
 
   - titles:
       en: &EN Rust

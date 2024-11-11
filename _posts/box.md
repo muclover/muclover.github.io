@@ -53,6 +53,7 @@ TCP如何管理连接：三次握手和四次挥手
 - 例子：客户端发送第一个请求建立连接，但在网络中阻塞掉，没有到达服务器，然后又发送了第二个请求建立连接。则服务器首先对第二个请求建立了连接。但后续客户端的第一个请求又到达了服务器，服务器不知道这是一个旧的请求，就重新回复建立了连接（这是无效的连接）
 - 在三次握手下，客户端收到服务器的回复后，能知道这个连接是否是它想要的连接。如果是，则回复ACK，如果不是，则发送拒绝包，服务器收到ACK表示连接正常建立，收到拒绝包，则放弃连接
 
+
 四次挥手，4个TCP包
 1. 客户端希望断开连接，FIN 标志
 2. 服务器表示知道了，断开连接
@@ -107,3 +108,20 @@ git rebase -i HEAD~3 # 可以对 commit 进行合并，或者选择想要的部�
 ```bash
 git config --global core.editor /usr/bin/vim
 ```
+
+
+## QUIC 协议
+QUIC（Quick UDP Internet Connections）协议。
+![EMQX 的两种stream操作模式](attachments/image-2.png)
+
+
+
+## HTTP2 协议
+
+参考资料：
+- [HTTP介绍-Daniel](https://doc.yonyoucloud.com/doc/wiki/project/http-2-explained/background.html)
+
+
+## HTTPS 协议
+
+## DNS 协议
