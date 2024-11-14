@@ -118,6 +118,23 @@ QUIC（Quick UDP Internet Connections）协议。
 
 ## HTTP2 协议
 
+HTTP2 的特点：
+- 二进制
+- 首部压缩（HPACK算法）
+- 流 stream 的多路复用
+    - 解决 HTTP1 中的队头阻塞问题
+- 流量控制: 由于多路复用带来的复杂性
+- 请求优先级、请求依赖
+- 服务器主动推送
+
+
+### 帧 frame 格式
+所有帧都有一个 8 字节的首部，具体格式如下：
+![frame](attachments/image-3.png)
+
+
+
+
 参考资料：
 - [HTTP介绍-Daniel](https://doc.yonyoucloud.com/doc/wiki/project/http-2-explained/background.html)
 
