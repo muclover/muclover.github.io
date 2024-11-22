@@ -1,6 +1,6 @@
 # 一：网络技术概览
 ## 延迟和带宽
-![延迟和带宽](attachments/image-4.png)
+![延迟和带宽](./attachments/image-4.png)
 
 延迟 = 传播延迟 + 传输延迟 + 处理延迟 + 排队延迟
 
@@ -11,7 +11,7 @@
 负责在不可靠的传输信道上提供可靠的抽象层，向应用层隐藏了大多数网络通信的复杂细节：丢包重发、按序发送、拥塞控制及避免、数据完整等。
 
 三次握手：建立 TCP 连接
-![alt text](attachments/image-5.png)
+![alt text](./attachments/image-5.png)
 
 - 客户端可以在发送 ACK 后立即发送数据，服务器必须等到接收到 ACK 后才能发送数据
 
@@ -38,12 +38,12 @@ UDP 只增加4字段：源端口、目标端口、分组长度和校验和
 ## TLS
 TLS 的目标：加密、身份验证、数据加密
 
-![alt text](attachments/image-6.png)
+![alt text](./attachments/image-6.png)
 
 密钥协商、身份认证（PKI）、消息分帧（MAC，判断消息的完整性和可靠性）
 
 由于需要提供额外的信息，需要进行 TLS 握手来建立加密信道，协商内容包括：TLS版本、加密套件、验证证书
-![TLS 握手](attachments/image-7.png)
+![TLS 握手](./attachments/image-7.png)
 1. 建立 TCP 连接
 2. 客户端发送规格说明：TLS版本、支持的加密套件列表、希望使用的TLS选项
 3. 服务器从客户端提供的加密套件中选择一个，再附上自己的整数，选择相同的TLS协议，将响应发送回客户端。作为可选项，服务器也可以发送请求，要求客户端提供证书及其他TLS扩展参数
@@ -62,7 +62,7 @@ TODO
 # 三：HTTP
 HTTP 历史：HTTP0.9 ---> HTTP1.0(最佳实践和共用模式的RFC)---> 标准化的 HTTP1.1 ---> HTTP2(改进传输性能) ---> HTTP3
 
-![HTTP性能](attachments/image-8.png)
+![HTTP性能](./attachments/image-8.png)
 
 
 HTTP1.1引入了大量性能优化的特性：
@@ -84,7 +84,7 @@ HTTP 的首部可扩展性，为传输带来了负担
 2. 压缩HTTP首部来降低传输开销
 3. 增加请求优先级和服务器主动推送
 
-![HTTP2二进制帧](attachments/image-9.png)
+![HTTP2二进制帧](./attachments/image-9.png)
 - 一个HTTP1.1请求分为：头部二进制帧 + 数据二进制帧
 - 在请求中会有各种控制二进制帧
 
@@ -92,12 +92,12 @@ stream: 建立的连接上的双向字节流
 message: 对应于逻辑消息的完整的一系列数据帧
 frame: 通信的最小单位，每个帧包括：frame 头 + frame 体
 
-![http2stream/message/frames](attachments/image-10.png)
+![http2stream/message/frames](./attachments/image-10.png)
 - 请求消息只包括一个header帧
 - 响应消息包括header帧+data帧
 
 客户端和服务器可以将HTTP消息分为相互不依赖的帧，然后乱序发送，再在另一端有序的组合起来：
-![多路复用](attachments/image-11.png)
+![多路复用](./attachments/image-11.png)
 - 上面的连接有3个请求/响应在并行交换
 - 解决队首阻塞的问题
 
@@ -113,7 +113,7 @@ frame: 通信的最小单位，每个帧包括：frame 头 + frame 体
 服务器推送：将资源直接推送给客户端，而无需客户端请求
 
 首部压缩：
-![首部压缩](attachments/image-12.png)
+![首部压缩](./attachments/image-12.png)
 
 
 缺点：
@@ -123,7 +123,7 @@ frame: 通信的最小单位，每个帧包括：frame 头 + frame 体
 
 
 帧头格式
-![header frame](attachments/image-13.png)
+![header frame](./attachments/image-13.png)
 
 帧类型：
 - DATA
