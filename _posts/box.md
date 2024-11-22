@@ -141,7 +141,9 @@ HTTP2 的特点：
 
 
 # vscode 设置粘贴图片的路径
-由于vscode启动了安全策略，只允许相对路径，因此无法粘贴到根目录
+现在用的博客网站的图片默认是渲染后的位置加载的，为了简单起见，放在根目录下的 `/images/` 中，但由于vscode启动了安全策略，只允许相对路径，因此无法粘贴到根目录。
+
+**启用下列设置**
 ```json
 “markdown.copyFiles.destination”：{
     "**/*.md" : "${documentWorkspaceFolder}/images/${documentBaseName}/"
