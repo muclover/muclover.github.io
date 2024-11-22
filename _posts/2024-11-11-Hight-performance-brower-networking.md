@@ -123,8 +123,11 @@ frame: 通信的最小单位，每个帧包括：frame 头 + frame 体
 
 
 帧头格式
-<!-- ![header frame](./attachments/image-13.png) -->
-<img src="./attachments/image-13.png" />
+![首部压缩](/pictures/image-13.png)
+
+xxx
+
+<img src="/pictures/image-13.png" />
 
 帧类型：
 - DATA
