@@ -112,7 +112,7 @@ git config --global core.editor /usr/bin/vim
 
 ## QUIC 协议
 QUIC（Quick UDP Internet Connections）协议。
-![EMQX 的两种stream操作模式](./attachments/image-2.png)
+![EMQX 的两种stream操作模式](attachments/image-2.png)
 
 
 
@@ -130,7 +130,7 @@ HTTP2 的特点：
 
 ### 帧 frame 格式
 所有帧都有一个 8 字节的首部，具体格式如下：
-![frame](./attachments/image-3.png)
+![frame](attachments/image-3.png)
 
 
 
