@@ -5,7 +5,52 @@ published: false
 ---
 
 2024-11-07 14:47:45
-# Box
+# Capature
+阅读 packt 购买的 [《Asynchronous Programming in Rust: Learn asynchronous programming by building working examples of futures, green threads, and runtimes》](https://subscription.packtpub.com/book/programming/9781805128137/pref/preflvl1sec03/what-this-book-covers)
+
+目录：
+- Part I: 异步编程基础
+- Part II: 事件队列和绿色线程
+- Part III: Rust 中的 Futures 和 async/await
+
+## Box
+**一些异步相关的文章存档：**
+https://huangjj27.github.io/async-book/01_getting_started/02_why_async.html | 为什么使用异步？ - Rust 中的异步编程
+
+https://course.rs/advance/async/future-excuting.html | 底层探秘: Future 执行与任务调度 - Rust语言圣经(Rust Course)
+
+https://zhuanlan.zhihu.com/p/611587154 | 16 Rust学习笔记-异步编程(async/await/Future) - 知乎
+
+https://mincodes.com/posts/understanding-async-rust/ | 理解 Rust 异步编程 | MinCodes
+
+https://rustcc.cn/article?id=e6d50145-4bc2-4f1e-84da-c39c8217640b | Rust异步浅谈 - Rust语言中文社区
+
+https://rustmagazine.github.io/rust_magazine_2022/Q1/contribute/async-cancel.html | Rust 异步与取消 - Rust Magazine 2022
+
+https://funkill.github.io/async-book-i18n/zh-cn/async-in-rust/chapter.html | Rust异步编程: 你需要知道的事 - Asynchronous Programming in Rust
+
+https://rustmagazine.github.io/rust_magazine_2021/chapter_10/async-trait.html | Rust Async trait 更新与多线程 - Rust精选
+
+https://nickymeuleman.netlify.app/blog/multithreading-rust | Rust 中的多线程 | Nicky 博客
+
+https://rustcc.cn/article?id=7f326442-401e-4514-ac13-2279a54afc8e | gm-quic - 一款纯rust编写的高效异步 IETF quic传输协议实现 - Rust语言中文社区
+
+https://rust-book.junmajinlong.com/ch100/00.html | Rust异步编程和tokio框架 - Rust入门秘籍
+
+https://www.tisonkun.org/2023/11/05/async-rust/ | Async Rust 的实现 | 夜天之书
+
+https://github.com/wyfcyx/osnotes/blob/master/pl/Rust/future-in-200-lines.md | osnotes/pl/Rust/future-in-200-lines.md at master · wyfcyx/osnotes
+
+https://www.linuxzen.com/understanding-rust-futures-by-going-way-too-deep.html | 【译】深入理解 Rust future
+
+https://fasterthanli.me/articles/understanding-rust-futures-by-going-way-too-deep | 深入理解 Rust Futures
+
+https://os.phil-opp.com/async-await/ | Async/Await | 用Rust编写操作系统
+
+https://medium.com/@tzutoo/rust-async-io-a-beginners-guide-to-asynchronous-programming-in-rust-600219226c82 | Rust Async IO：Rust 异步编程初学者指南 | 作者：tzutoo | Medium
+
+
+
 ## TCP协议
 TCP 是有序传输的，每个数据段都需要一个序号，才能保证在收到乱序的包时，能够重新按顺序组装起来。通过 `Seq` 字段来表示，其增加方式如下：
 - 若数据段 1 的起始 Seq 号为 1，长度为 1448，那么数据段 2 的起始 Seq 号为 1+1448=1449，如果数据段 2 的长度也是 1448，那么数据段 3 的起始 Seq 号为 1+1448+1448=2897
