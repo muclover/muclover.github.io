@@ -157,6 +157,11 @@ git config --global core.editor /usr/bin/vim
 QUIC（Quick UDP Internet Connections）协议。
 ![EMQX 的两种stream操作模式](/images/box/image-1.png)
 
+### bilibili
+https://space.bilibili.com/3546759305366493/video
+
+
+
 ## HTTP2 协议
 
 HTTP2 的特点：
@@ -196,3 +201,40 @@ HTTP2 的特点：
 ```
 
 这样可以产生 `../images/file/image-1.png` 这种样式，由于 `_posts` 是二级目录，每次粘贴后再删除 `..` 保留 `/` 就可以了
+
+
+# 网络是怎么运行的
+当你输入一个网址是如何返回一个网页给你的？
+
+
+IP --> subnet --> NAT --> Ethernet --> broadcast --> ARP --> switch --> router --> AS(Autonomous System)/ISP --> DHCP --> DNS --> TCP/UDP --> HTTPS(TLS/SSL --> HTTP)
+
+
+在局域网下是如何分配IP地址的，当一个新的设备请求加入局域网时，会发送一个DHCP请求
+- 首先为了通过网线获取数据，首先需要知道网址对应 url 的 ip 地址, 通过 DNS 来解析域名为 IP 地址, 假设工作在 IPV4 上
+
+IPV4由32位组成，可以分为4组 A.B.C.D, 每组的取值范围是 0-255。
+发送请求需要自己电脑的 ip, 在日常使用的 IP 地址都是处于局域网下, 本机的 IP 通过 DHCP 协议来决定, 每当设备连接到一个新的网络，都发送一个 DHCP 广播请求来寻找可用的DHCP服务器, 然后 DHCP 服务器会给设备提供一个 IP 地址及子网掩码(subnet mask), 在同一个局域网(LAN)下的所有设备的 IP 的网络部分都相同。
+> 子网掩码将IP地址分为两部分: 网络 + 主机
+
+通过 DHCP 提供的 IP 是私有 IP(10.0.0.0 - 10.255.255.255, 172.16.0.0 - 172.31.255.255, 192.168.0.0 - 192.168.255.255), 所有具有私有 IP 的设备通过 router 离开局域网时, NAT 会将所有的私有 IP 转换为同一个 public IP 地址来进行网络通信。
+
+![DHCP](/images/box/image-4.png)
+
+
+在知道通信双方的 IP 地址后，可以开始进行传输了 
+应用层:     | Application Data|
+传输层:     | TCP Header| Application Data|
+网络层:     | IP Header | TCP Header| Application Data|
+数据链路层: | Eth Header || IP Header | TCP Header| Application Data| CRC |
+
+在经过数据链路层来通过网线传输数据时，会经过许多个物理设备，每个设备都有自己的 MAC 地址，每个路由器都会拆开以太网帧来查看 IP 包的目标IP地址，确保目标IP不是它自己，然后路由器查看自己的路由表，若目标IP匹配到表中的某个子网，然后路由器就会重新封装IP包，然后将MAC源地址改成自己的地址，MAC目标地址改成下一个路由器的地址，然后发送。
+
+交换机是数据链路层设备，路由器是网络层设备。交换机不会接触IP地址，交换机通常只连接一个局域网内的多台设备，
+- 当局域网下的设备要通过ip地址进行通信时，有两种类型(根据子网掩码来判断)：
+  - 目的ip地址在局域网内：交换机使用 switch 表，将 MAC 地址映射到端口上，在一个局域网上的设备A想给B发送消息，A通过网线只能发送给交换机，但A不知道B的MAC地址，A会发送一个ARP广播消息来查找B的MAC地址，源地址为A的MAC，目标地址是广播地址，通常是FF::FF::FF::FF::FF::FF，交换机收到含有广播地址的消息后会发送消息到所有端口，保证发送给了局域网的每个设备，每个设备会拆开报文查看ip目标地址是否是自己。然后B返回一个ARP消息给A，交换机会更新自己的switch表，将对应的端口和MAC地址的对应关系保证，A在收到B的ARP回应消息后，再发送消息给B，交换机会直接把消息传出到设备B上。
+  - 目的ip地址不在局域网内：直接发送给网关（局域网的出口设备，一般是路由器，在企业里可能是防火墙等含路由功能的设备），然后通过路由来进行传输
+
+![交换机和路由器的区别](/images/box/image-5.png)
+
+> 一个城市的网络由多个路由器集群组成，这些路由器集群构成了一个自治系统 AS，由 ISP 管理和运营。不同的 AS 之间通过边界网关协议来交换路由信息，确保数据包能在成千上万的数据包之间选择最佳路径传输
