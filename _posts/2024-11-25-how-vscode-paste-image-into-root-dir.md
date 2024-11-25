@@ -9,7 +9,6 @@ tags: Archive vscode configuration
 #  toc: true
 ---
 
-# vscode 设置粘贴图片的路径
 现在用的博客网站的图片默认是渲染后的位置加载的，为了简单起见，放在根目录下的 `/images/` 中，但由于vscode启动了安全策略，只允许相对路径，因此无法粘贴到根目录。
 > 举个例子，一篇2024-11-11的文章会渲染到 muclover.github.io/2024/11/11 下，如果将粘贴目录设置到和 .md 文件相同子目录 images 下，那么最终渲染出来的文章，会去 muclover.github.io/2024/11/11 下寻找图片
 
