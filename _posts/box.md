@@ -13,6 +13,9 @@ published: false
 - Part II: 事件队列和绿色线程
 - Part III: Rust 中的 Futures 和 async/await
 
+阅读: Rust 生命周期
+- lifetime-kaka: https://thinkgos.github.io/lifetimekata/index.html
+
 ## Box
 **一些异步相关的文章存档：**
 https://huangjj27.github.io/async-book/01_getting_started/02_why_async.html | 为什么使用异步？ - Rust 中的异步编程
