@@ -213,16 +213,16 @@ HTTP2 的特点：
 ![性能指标](/images/box/image-8.png)
 
 **不同网络条件下的性能表现**
-![不同网络条件下的性能表现](../images/box/image-9.png)
+![不同网络条件下的性能表现](/images/box/image-9.png)
 
 **资源消耗对比**
-![资源消耗对比](../images/box/image-10.png)
+![资源消耗对比](/images/box/image-10.png)
 
 **场景适用性分析**
-![场景适用性分析](../images/box/image-11.png)
+![场景适用性分析](/images/box/image-11.png)
 
 **性能要求场景适用性**
-![性能要求场景适用性](../images/box/image-12.png)
+![性能要求场景适用性](/images/box/image-12.png)
 
 
 # 网络是怎么运行的
