@@ -16,6 +16,12 @@ gzip -l directory
 gzip -l filename
 
 ```
+# 如何对待事务性的、琐碎的工作
+1. 摆正心态：工作就是工作，完成分配的任务，就是你的目的，不要产生对抗性情绪。工作不是学习，不能期待所有工作内容都能得到成长。
+2. 不出错 + 高效率：不出错（多问多看） --> 提高效率（寻找改进点、改进建议）
+3. 建立系统性思维：寻找琐碎的工作处于业务的位置，定位是什么？加深自己的理解
+4. 不要忘记主线任务：始终要保证对核心产出投入足够的时间和精力，做出自己有亮点的地方
+5. 适当拒绝：学会沟通
 
 # http 自动解压缩
 libcurl: 客户端可以通过 `Accept-Encoding` 来告诉服务器，它支持的压缩算法
@@ -113,6 +119,59 @@ fn main() {
     }
 }
 ```
+## Std 中的 IO 模块
+定义核心 io 功能的 trait、工具函数、类型。最核心的部分是 `Read` 和 `Write` trait，提供通用接口来读取/写入 IO。
+- 一些实现了 `Read` 和 `Write` 的类型：`File`、`TcpStream`、可能有 `Vec<T>`
+- `Read`：添加了 `read` 方法
+- `Write`：添加了 `write` 方法
+
+> 实现了 `Read` trait 的类型称为 reader，实现了 `Write` trait 的类型称为 `writer`。
+
+`Seek` 和 `BufRead` 是 reader 来控制如何去读取 IO 而使用的 trait。
+- `Seek`：控制下一个字节来自哪里
+- `BufRead`：使用内部缓冲区来提供其他一系列的读取方式
+
+基于字节的接口通常是不高效且不实用，因为每次使用都需要进行系统调用。`std::io` 提供了两个结构体 `BufReader` 和 `BufWriter` 来进行更高效的操作，封装了 reader 和 write，使用 buffer 来减少调用的次数，并提供更好的方法来访问IO
+- 使用 `BufReader` 和 `BufRead` trait 来提供额外的方法
+- 而 `BufWriter` 不添加额外的方法，只提供缓冲功能（buffer 会 flushed 刷新，从缓冲到真正的IO处）
+
+```rust
+use std::io; use std::io::prelude::*; use std::io::BufReader; use std::fs::File;
+fn main() -> io::Result<()> {
+    let f = File::open("foo.txt")?;
+    let mut reader = BufReader::new(f);
+    let mut buffer = String::new();
+    reader.read_line(&mut buffer)?;     // read a line into buffer
+    println!("{}", buffer);
+    Ok(());
+}
+```
+
+有迭代器类型，如 `Lines`，还有很多其他的功能函数，如 `io::copy`
+
+`io::Result` IO 中的错误类型。
+
+**结构体**
+- `BufReader<R>`：`R` 是一个泛型，表示一个 reader，为 reader 提供带有 buffer 的结构
+    - 直接使用 `Read` trait效率很低（每次使用调用都会导致系统调用）
+    - `BufReader` 能提高对同一文件/网络socket进行小规模和重复读取的速度，在一次性读取大量数据或只读取几次时，将没有优势
+    - 默认的缓冲区容量为 8KB，可以使用 `BufReader::with_capacity(size, R)` 来指定缓冲区大小
+    - 对从内存中已有的源数据（比如 `Vec<u8>`）中读取时，也没有优势
+> 主要的优势点，如在网络IO下，由于网络数据并不是一次性到达的，因此每次调用 read 只能读取一部分数据（这是耗时的系统调用），而使用 BufReader 来读取的话，则有一个缓冲区来读取数据
+
+- `BufWriter`
+- `Bytes`
+- `Chain`
+- `Cursor`
+- `IoSlice`
+- `Lines`
+- `Sink`
+- `Split`
+- `Stdin`
+- `Stdout`
+- `Stderr`
+- `Take`
+
 
 ## 网络
 ### Std 中的网络模块
