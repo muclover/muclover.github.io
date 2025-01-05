@@ -1,5 +1,32 @@
+# Todo Blog
+high: https://www.firezone.dev/blog/sans-io
+high: https://predr.ag/blog/breakage-in-the-cargo-toml-how-rust-package-features-work/
+high: https://rustmagazine.github.io/rust_magazine_2021/chapter_7/how-we-improved-the-performance-of-our-rust-app.html
+high: https://rustmagazine.github.io/rust_magazine_2021/chapter_5/rust-memory-troubleshootting.html
+high: https://rustmagazine.github.io/rust_magazine_2021/chapter_9/rethink-async.html
+high: https://rustmagazine.github.io/rust_magazine_2021/chapter_1/rust_async.html
+https://rustmagazine.github.io/rust_magazine_2021/chapter_12/tokio_part1.html
+https://rustmagazine.github.io/rust_magazine_2021/chapter_12/lock-free.html
+https://rustmagazine.github.io/rust_magazine_2021/chapter_11/play-async.html
+https://rustmagazine.github.io/rust_magazine_2021/chapter_8/reqwest-middleware.html
+https://rustmagazine.github.io/rust_magazine_2021/chapter_4/hw_bin_opt.html
+https://rustmagazine.github.io/rust_magazine_2021/chapter_4/ant_async_os_opt.html
+https://rustmagazine.github.io/rust_magazine_2021/chapter_2/rust_error_handle_and_log.html
+https://tony612.github.io/tokio-internals/01.html
+https://fractalfir.github.io/generated_html/refl_priv.html
+
+rust 的内存布局视频：https://www.youtube.com/watch?v=7_o-YRxf_cc
+
+Rust组合器选择的网址：https://rustcombinators.com/
+- 当你有一个 `Option<T>` 或者 `Result<T,E>`，需要获取 `T` 或者 `E` 时，你应该怎么做
+
 # wsl 上安装 perf
+参考使用 bcc：https://massoudasadiblog.blogspot.com/2024/07/ebpf-on-wsl2-kernel-version-6x-ubuntu.html?m=1
 参考：https://gist.github.com/abel0b/b1881e41b9e1c4b16d84e5e083c38a13
+- https://gist.github.com/MarioHewardt/5759641727aae880b29c8f715ba4d30f
+参考bcc的安装文档：https://github.com/iovisor/bcc/blob/master/INSTALL.md#wslwindows-subsystem-for-linux---binary
+
+**bcc的安装可以参考这个：http://www.aisoftcloud.cn/blog/article/1684117709501802?session=**
 
 下面是我本地的 wsl2 版本，安装的是 Ubuntu 22.04
 ```bash
