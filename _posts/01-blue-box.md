@@ -74,6 +74,12 @@ git clone https://gitee.com/openharmony/testfwk_xdevice
 
 注意，在跑 xts 的时候需要保证 rk **屏幕常亮** 和 **连接网络**，测试需要通过网络来下载数据
 - 屏幕常亮：`hdc shell power-shell setmode 602`
+```bash
+  600  :  normal mode
+  601  :  power save mode
+  602  :  performance mode
+  603  :  extreme power save mode
+```
 
 ## 理解 Atomic 和 Meory Ordering 
 标记为 memory_order_relaxed 的原子操作不是同步操作；它们不会在并发内存访问中强加顺序。它们只保证原子性和修改顺序的一致性。
