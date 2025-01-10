@@ -1,6 +1,10 @@
 # Box 记录
 ## OH 编译问题
 > 需要版本 python3.9(待验证，看更高版本是不是可以)、gcc-11、clang 使用 gcc-11
+![alt text](/images/01-blue-box/image.png)
+
+![alt text](/images/01-blue-box/image-1.png)
+![alt text](/images/01-blue-box/image-2.png)
 
 我安装了 gcc-11 和 gcc-13，则默认通过 `sudo apt install clang` 会使用 `gcc-13`，因此需要先卸载 gcc-13 后再重新安装。
 ```bash
@@ -16,6 +20,61 @@ Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/11
 Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/11
 ```
 - 如果有多个版本的话，会显示多个 Found candidate GCC installation
+
+> `sudo chown -R muxi /root`
+> 不小心将 OpenHarmony 安装到了 /root 下，需要 执行上面的命令后才能使用 `code .` 打开
+
+### 如何直接跑 tdd 和 xdc 在 Windows 上
+首先要保证存在 hdc 工具，下载 [OH开发者工具](https://repo.huaweicloud.com/openharmony/os/4.1-Release/ohos-sdk-windows_linux-public.tar.gz)，解压后，压缩包中有linux，windows两个文件夹，找到 windows 下的 `toolchains-windows-x64-5.0.2.57-Canary1.zip` 文件，解压到对应目录，然后添加路径到环境变量中，比如 `D:\OH\toolchains-windows-x64-5.0.2.57-Canary1\toolchains`
+- 打开终端，执行 `hdc version` 查看版本信息
+
+
+注意使用 `pip list` 查看安装的版本，其中 setuptools 的版本号不能大于 50，如果大于，可以使用：
+```bash
+python -m pip uninstall setuptools
+python -m pip install setuptools==46.1.3
+```
+环境上需要下载：
+```bash
+git clone https://gitee.com/openharmony/testfwk_developer_test
+git clone https://gitee.com/openharmony/testfwk_xdevice
+```
+在 `testfwk_xdevice` 上需要直接 `python setup.py install` 和 在 `plugins\ohos` 目录下执行 `python setup.py install`(不执行也没啥)
+- **需要将两个文件放到同一个目录下，比如 /TDD**
+
+对于协议栈，TDD 就是本地的 UT，没有 XTS；由于 request 模块依赖协议栈，因此协议栈的修改需要跑 request 模块的 UT 和 XTS，可以使用一个已完成的 PR 来验证本地 windows 环境是否正确：
+- 比如对已合并的 PR： `https://gitee.com/openharmony/request_request/pulls/1171` 来进行测试
+0. 镜像烧写
+- 首先需要进行镜像烧写，在 PR 下面找到最新的 build 成功的记录，然后查看门禁报告 `https://ci.openharmony.cn/workbench/cicd/detail/67807ce064650f998b35725f/runlist`
+- 下载 dayu200 里面的文件
+![alt text](/images/01-blue-box/image-3.png)
+
+1. TDD
+如上所示，下载 `dayu200_tdd` 里的文件
+将下载文件解压，将解压文件里面的 `/tests` 目录，拷贝到上面的 `/TDD` 目录下的 `testfwk_developer_test`中。
+
+修改 `testfwk_developer_test/config/user_config.xml` 配置文件：
+- 修改 sn 信息为 `hdc list targets` 的输出值
+```xml
+<!-- sn 信息 -->
+<sn>xxx</sn> 
+<!-- 增加测试文件目录 -->
+<test_cases>
+<dir>../tests</dir>
+</test_cases>```
+
+最后在目录 `D:\rk3568\TDD\testfwk_developer_test` 启动终端，然后运行 `./start.bat`，然后执行 `run -t UT -tp request` 即可
+
+2. XTS
+如上所示，下载 `dayu200_xts` 里的文件，直接解压后进入下面的文件夹
+```bash
+\Artifacts-dayu200_xts-20250110-1-00135-version-dayu200_xts\suites\acts\acts
+```
+然后运行：`run.bat` 文件，执行 `run acts`
+
+注意，在跑 xts 的时候需要保证 rk **屏幕常亮** 和 **连接网络**，测试需要通过网络来下载数据
+- 屏幕常亮：`hdc shell power-shell setmode 602`
+
 ## 理解 Atomic 和 Meory Ordering 
 标记为 memory_order_relaxed 的原子操作不是同步操作；它们不会在并发内存访问中强加顺序。它们只保证原子性和修改顺序的一致性。
 - 通常用于 counter 的 +/-，只要求原子性，不要求顺序/同步
@@ -145,6 +204,17 @@ sudo apt install python3.9-dev
 ```
 
 参考：https://blog.wssh.trade/posts/ubuntu-python/
+
+
+除了使用 update-alternatives 来管理，还可以手动设置软连接来进行管理：
+```bash
+# 切换到 Python3.9
+sudo ln /usr/local/python3/bin/python3.9 /usr/bin/python3
+sudo ln /usr/local/python3/bin/pip3 /usr/bin/pip3
+# 切换到 Python3.9
+sudo ln /usr/bin/python3.10 /usr/bin/python3
+sudo ln /usr/local/python3/bin/pip3.10 /usr/bin/pip3
+```
 
 ## gzip 命令
 ```bash
