@@ -26,7 +26,7 @@ Rust组合器选择的网址：https://rustcombinators.com/
 - https://gist.github.com/MarioHewardt/5759641727aae880b29c8f715ba4d30f
 参考bcc的安装文档：https://github.com/iovisor/bcc/blob/master/INSTALL.md#wslwindows-subsystem-for-linux---binary
 
-**bcc的安装可以参考这个：http://www.aisoftcloud.cn/blog/article/1684117709501802?session=**
+**bcc的安装**可以参考这个：http://www.aisoftcloud.cn/blog/article/1684117709501802?session=
 
 下面是我本地的 wsl2 版本，安装的是 Ubuntu 22.04
 ```bash
