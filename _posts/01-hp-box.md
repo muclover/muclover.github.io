@@ -1,4 +1,10 @@
 # Todo Blog
+2025-01-13 00:44:07 
+- https://conradludgate.com/posts/async
+- https://www.youtube.com/watch?v=7pU3gOVAeVQ
+- https://www.reddit.com/r/rust/comments/1djkz6t/i_dont_understand_how_the_stdthreadscope/
+- https://stackoverflow.com/questions/77661629/why-do-we-need-stdthreadscope-if-we-can-just-use-thread-join-to-drop-refer
+
 high: https://www.firezone.dev/blog/sans-io
 high: https://predr.ag/blog/breakage-in-the-cargo-toml-how-rust-package-features-work/
 high: https://rustmagazine.github.io/rust_magazine_2021/chapter_7/how-we-improved-the-performance-of-our-rust-app.html
