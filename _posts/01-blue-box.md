@@ -1,4 +1,11 @@
 # Box 记录
+2025-01-14 10:32:43
+- `pub(crate) something` 表示在当前包可见，也就是可以直接在其他模块里使用 `use crate::something` 来导入对应 item(结构体、enum、模块)
+- 也可以使用完整的绝对路径进行引用
+
+Burn Book：https://burn.dev/burn-book/basic-workflow/index.html
+- Rust 写的深度学习框架
+
 ## OH 编译问题
 > 需要版本 python3.9(待验证，看更高版本是不是可以)、gcc-11、clang 使用 gcc-11
 ![alt text](/images/01-blue-box/image.png)
@@ -61,9 +68,13 @@ git clone https://gitee.com/openharmony/testfwk_xdevice
 <!-- 增加测试文件目录 -->
 <test_cases>
 <dir>../tests</dir>
-</test_cases>```
+</test_cases>
+```
 
-最后在目录 `D:\rk3568\TDD\testfwk_developer_test` 启动终端，然后运行 `./start.bat`，然后执行 `run -t UT -tp request` 即可
+最后在目录 `D:\rk3568\TDD\testfwk_developer_test` 启动终端，然后运行 `./start.bat`，然后执行
+```bash
+run -t UT -tp request
+```
 
 2. XTS
 如上所示，下载 `dayu200_xts` 里的文件，直接解压后进入下面的文件夹
@@ -81,6 +92,34 @@ git clone https://gitee.com/openharmony/testfwk_xdevice
   603  :  extreme power save mode
 ```
 
+**对于协议栈的测试来说，TDD 就是项目下的 UT 测试，也就是通过执行 `cargo test` 来完成**
+- 需要执行的 XTS 和 TDD 都是上传下载的，因此上传下载依赖协议栈，因此：
+- 刷上对应 PR 的镜像到 rk 中
+    - 使用上传下载的其他最近 PR 上的 XTS 和 TDD 测试
+> 协议栈 images + 上传下载的 XTS 和 TDD
+
+
+如果安装了 xdevice，那么就直接使用 `python -m xdevice` 然后运行 `run acts` 即可。
+> run.bat 中包含了卸载和安装命令，如果版本没有变化就可以直接运行上述命令来执行哟管理
+```bash
+python -m pip uninstall -y hypium
+python -m pip uninstall -y xdevice-aw
+python -m pip uninstall -y xdevice-aosp
+python -m pip uninstall -y xdevice-oh-apptest
+python -m pip uninstall -y xdevice-ohos
+python -m pip uninstall -y xdevice-extension
+python -m pip uninstall -y xdevice-devicetest
+python -m pip uninstall -y xdevice-devicetest-extension
+python -m pip uninstall -y xdevice-devicetest-common-aw
+python -m pip uninstall -y xdevice-app-dfx-test
+python -m pip uninstall -y xdevice-common-aw
+python -m pip uninstall -y xdevice
+```
+
+测试报告的问题：
+- 测试报告现在用的两套逻辑，要么下载到新报告，要么使用旧报告
+- 新报告下载不了的时候，直接使用了旧报告，但旧报告也要下载资源，如果下载不了，就会出现 {{}} 这种错误，因此需要下载下面网站的资源，然后解压后替换到报告目录下
+- https://gitee.com/openharmony-sig/compatibility/blob/master/test_suite/resource/xdevice/template.zip
 ## 理解 Atomic 和 Meory Ordering 
 标记为 memory_order_relaxed 的原子操作不是同步操作；它们不会在并发内存访问中强加顺序。它们只保证原子性和修改顺序的一致性。
 - 通常用于 counter 的 +/-，只要求原子性，不要求顺序/同步
@@ -182,6 +221,15 @@ g++ -v
 
 ## 将 Python3 设置为默认版本
 将 python3 设置为默认版本 https://www.cnblogs.com/slyu/p/13362005.html
+- 创建软连接：`sudo ln -s /usr/bin/python3 /usr/bin/python`
+- 使用 update-alternatives 来为使用 python2 和 python3 
+    - `sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 100`
+    - `sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 150`
+    - 设置优先级来切换 python2 和 python3，也可以用于不同 python3 版本的切换，如 python3.10 和 python3.11 之间进行切换
+- 使用 `sudo apt install python-is-python3`
+    - 自动完成所有链接创建
+- 使用别名：`alias python='python3'` 在需要 `/use/bin/python` 时，无效
+> 如果安装了 mini-conda，那么可以使用 conda 来管理 python 环境，唯一需要注意的事情是：注意有些软件，尤其是内核相关，需要在原始环境下安装，在 conda 中使用的 python 和原始环境是不一样的，这样就会报错，因此应该先 `conda deactive` 然后再进行安装
 
 https://blog.wssh.trade/posts/ubuntu-python/
 
@@ -221,6 +269,7 @@ sudo ln /usr/local/python3/bin/pip3 /usr/bin/pip3
 sudo ln /usr/bin/python3.10 /usr/bin/python3
 sudo ln /usr/local/python3/bin/pip3.10 /usr/bin/pip3
 ```
+sudo apt install python-is-python3
 
 ## gzip 命令
 ```bash
