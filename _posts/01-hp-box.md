@@ -1,4 +1,10 @@
 # Todo Blog
+2025-01-19 23:40:04:
+- https://kobzol.github.io/rust/2025/01/15/async-rust-is-about-concurrency.html
+  - 推荐：Rust 异步的优势不是性能，而是其他方面
+- https://shikaan.github.io/assembly/x86/guide/2024/09/08/x86-64-introduction-hello.html
+  - 对汇编语言的 Friendly introduction
+
 2025-01-13 00:44:07 
 - https://conradludgate.com/posts/async
 - https://www.youtube.com/watch?v=7pU3gOVAeVQ
