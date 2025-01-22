@@ -5,13 +5,37 @@
 
 Burn Book：https://burn.dev/burn-book/basic-workflow/index.html
 - Rust 写的深度学习框架
+## 在存在Opensssl3.x版本的ubuntu上安装openssl1.1.1
+编译安装
+```bash
+wget https://www.openssl.org/source/openssl-1.1.1.tar.gz
+tar -xzvf openssl-1.1.1.tar.gz
+cd openssl-1.1.1
+# 配置
+./config --prefix=~/my-package/ssl --openssldir=~/my-package/ssl shared no-apps
+# 如果出现 no-apps 选项的错误，那么直接忽略这个选项
+./config --prefix=~/my-package/ssl --openssldir=~/my-package/ssl shared
+# 编译安装
+make -j12
+sudo make install
+```
+
+使用
+```bash
+# 添加到运行时动态链接库地址
+export LD_LIBRARY_PATH=~/my-package/ssl/lib lib:$LD_LIBRARY_PATH # 临时使用
+
+# 编译时
+OPENSSL_LIB_DIR=/home/muxi/package-my/openssl-1.1.1-lib/ssl/lib OPENSSL_INCLUDE_DIR=/home/muxi/package-my/openssl-1.1.1-lib/ssl/include cargo build
+```
+然后就可以运行了
+
 ## TLS/SSL 证书
 https://blog.laisky.com/p/https-in-action/#gsc.tab=0
 https://www.kawabangga.com/posts/5330
 
 
 证书透明度： https://certificate.transparency.dev/howctworks/
-
 ## TCP
 2025-01-21 11:44:46
 
@@ -284,7 +308,7 @@ if (cert_chain!= NULL) {
 
 `SSL_get0_verified_chain ` 它的作用是获取经过验证的对等方证书链。这里强调 “经过验证”，意味着这个证书链已经经过了 SSL/TLS 连接中的验证过程（例如，在 SSL 握手过程中，会对证书链进行一系列的验证，包括证书的有效期、签名是否正确、证书链是否完整等），与 SSL_get_peer_cert_chain 不同的是，它返回的是经过验证的结果，在某些情况下，可以直接使用这个结果进行后续操作，例如在应用层进一步确认证书链的相关信息，而不需要再次从头开始进行完整的验证流程。
 
-### 如何使用 openssl 对一个证书进行哈希
+### 通过 openssl 生成公钥哈希值 pinnings
 [OH-network-http-文档](https://gitee.com/openharmony/docs/blob/master/zh-cn/application-dev/network/http-request.md#%E9%A2%84%E7%BD%AE%E8%AF%81%E4%B9%A6%E5%85%AC%E9%92%A5%E5%93%88%E5%B8%8C%E5%80%BC)
 
 ```
@@ -296,7 +320,13 @@ openssl asn1parse -noout -inform pem -in www.example.com.pubkey.pem -out www.exa
 openssl dgst -sha256 -binary www.example.com.pubkey.der | openssl base64
 ```
 
+
+
+### 通过 openssl 生成证书链
 如何产生证书：https://www.cnblogs.com/dirigent/p/15246731.html
+
+
+
 
 ## 多个版本的gcc，改变 gcc 的优先级
 ```bash
@@ -675,3 +705,5 @@ https://www.cnblogs.com/wongbingming/p/13212306.html
 # HTTP 协议
 
 https://byvoid.com/zhs/blog/http-keep-alive-header/
+
+
