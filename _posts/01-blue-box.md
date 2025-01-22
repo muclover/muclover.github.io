@@ -5,6 +5,94 @@
 
 Burn Book：https://burn.dev/burn-book/basic-workflow/index.html
 - Rust 写的深度学习框架
+## TLS/SSL 证书
+https://blog.laisky.com/p/https-in-action/#gsc.tab=0
+https://www.kawabangga.com/posts/5330
+
+
+证书透明度： https://certificate.transparency.dev/howctworks/
+
+## TCP
+2025-01-21 11:44:46
+
+> TCP 四次挥手，在实际中可能只能抓到 3 个包
+
+TCP flag：
+- SYN：建立连接
+- FIN：断开连接
+- ACK：响应
+- PSH：有 DATA数据传输
+- RST：连接重置
+- URG：紧急
+
+PSH 和 ACK 是通用的组合
+ACK是可能与SYN，FIN等同时使用的，比如SYN和ACK可能同时为1，它表示的就是建立连接之后的响应，
+RST一般是在FIN之后才会出现为1的情况，表示的是连接重置。
+
+PSH为1的情况，一般只出现在 DATA内容不为0的包中，也就是说PSH为1表示的是有真正的TCP数据包内容被传递。
+
+https://zh.wikipedia.org/wiki/TCP%E5%BB%B6%E8%BF%9F%E7%A1%AE%E8%AE%A4
+https://www.cnblogs.com/Xinenhui/p/17982452
+https://zyy.rs/post/tcp-flags-psh-and-urg/
+https://www.cnblogs.com/diegodu/p/4213799.html
+high: https://writings.sh/post/network-tcp
+http://timd.cn/tcp-window/
+
+TCP 的接收方在收到数据后，需要回复 ACK 数据包，表示已经确认接收到 ACK 确认号前面的所有数据。
+
+ACK 机制：接收方在接收到数据后，不会立即发送ACK的原因：
+- 收到数据包的序号签名还有需要接收的数据包。
+- 为了降低网络流量，ACK 有延迟确认机制
+- ACK 的值到达最大值，从0开始
+
+### Nagle 算法（发送角度）
+综合 累计发送 + 延迟发送 这两个策略
+
+避免小数据传输（发送角度）
+- 没有已发送未确认的报文时，马上发送数据
+- 存在未确认数报文时，直接没有已发送未确认报文或数据长度达到MSS大小时再发送数据
+- 不满足上面的条件，那么发送方会囤积数据直到条件满足
+
+
+### Delay ACK（接收角度）
+TCP有两种确认方式：
+- 快速 ACK：本端收到数据包后，立即发送ACK给对端
+- 延迟 ACK：本端收到数据包后，等待一段时间再发送ACK
+    - 如果需要发送数据，那么ACK在发送数据包中携带
+    - 否则，发送一个累计确认的ACK给对端(收到的最大seq+1)
+> 在实现中，使用 pingpong 来区分
+> 延迟确认：控制累计确认的时机
+
+
+TCP 传输的数据流：
+- TCP 交互数据流：一般情况下数据总是以小于 MSS 的分组发送，做的是小流量的数据交互，如 SSH、Telnet
+- TCP 成块数据流：TCP 尽最大能力传输数据，数据按照 MSS 发送，如 FTP
+
+Delay Ack：延迟发送ACK
+- 延迟一段时间后再发送ACK，系统有一个固定的定时器每隔200ms来检查是否需要发送ACK包
+- ACK可以合并，如果连续收到两个TCP包，只需要回复最终的ACK（累计确认机制）
+- 接收方有数据要发送，那么可以在发送数据的TCP包里面带上ACK信息，避免单独发送ACK包
+
+参考：
+- https://www.kawabangga.com/posts/5845
+- https://blog.csdn.net/wdscq1234/article/details/52430382
+- https://blog.csdn.net/2303_77208351/article/details/137938001
+
+> 有延迟确认，那么接收方会累计ACK，而发送方在延迟的时间内收不到AK，就不会发送小的数据包，而是留在缓冲中。
+- 两个一起使用的时候会影响性能
+
+
+### TCP 对 HTTP 性能的影响
+1. 建立连接，三次握手
+2. TCP 慢启动：TCP拥塞控制手段，在TCP刚建立好之后的最初传输阶段会限制连接的最大传输速度，后续逐步提高
+3. TCP 延迟确认
+4. Nagle 算法
+5. TIME_WAIT积累与端口耗尽
+6. 服务端端口耗尽
+7. 服务端HTTP进程打开文件数量达到最大
+> HTTPS，还需要加上 TLS 的影响
+
+https://www.cnblogs.com/rexcheny/p/10777906.html
 
 ## OH 编译问题
 > 需要版本 python3.9(待验证，看更高版本是不是可以)、gcc-11、clang 使用 gcc-11
@@ -124,6 +212,11 @@ python -m pip uninstall -y xdevice
 标记为 memory_order_relaxed 的原子操作不是同步操作；它们不会在并发内存访问中强加顺序。它们只保证原子性和修改顺序的一致性。
 - 通常用于 counter 的 +/-，只要求原子性，不要求顺序/同步
 
+## 关于证书的问题
+为什么客户端需要内置 Root 证书？证书链
+
+
+参考：https://www.kawabangga.com/posts/5330
 
 ## 增加 pinning 根证书
 HTTP客户端提供了一种额外的机制来保证HTTPS通信的安全，SSL Pinning。SSL Pinning又可以细分为Certificate Pinning和Public Key Pinning。
@@ -191,6 +284,19 @@ if (cert_chain!= NULL) {
 
 `SSL_get0_verified_chain ` 它的作用是获取经过验证的对等方证书链。这里强调 “经过验证”，意味着这个证书链已经经过了 SSL/TLS 连接中的验证过程（例如，在 SSL 握手过程中，会对证书链进行一系列的验证，包括证书的有效期、签名是否正确、证书链是否完整等），与 SSL_get_peer_cert_chain 不同的是，它返回的是经过验证的结果，在某些情况下，可以直接使用这个结果进行后续操作，例如在应用层进一步确认证书链的相关信息，而不需要再次从头开始进行完整的验证流程。
 
+### 如何使用 openssl 对一个证书进行哈希
+[OH-network-http-文档](https://gitee.com/openharmony/docs/blob/master/zh-cn/application-dev/network/http-request.md#%E9%A2%84%E7%BD%AE%E8%AF%81%E4%B9%A6%E5%85%AC%E9%92%A5%E5%93%88%E5%B8%8C%E5%80%BC)
+
+```
+# 从证书中提取出公钥
+openssl x509 -in www.example.com.pem -pubkey -noout > www.example.com.pubkey.pem
+# 将pem格式的公钥转换成der格式
+openssl asn1parse -noout -inform pem -in www.example.com.pubkey.pem -out www.example.com.pubkey.der
+# 计算公钥的SHA256并转换成base64编码
+openssl dgst -sha256 -binary www.example.com.pubkey.der | openssl base64
+```
+
+如何产生证书：https://www.cnblogs.com/dirigent/p/15246731.html
 
 ## 多个版本的gcc，改变 gcc 的优先级
 ```bash
@@ -506,3 +612,66 @@ https://github.com/flosse/rust-web-framework-comparison
 
 参考:
 [透过 Rust 探索系统的本原：网络篇](https://mp.weixin.qq.com/s/bOxEEK7Hh_tsua8HBahsjg)
+
+# Git 常用命令记录
+删除本地分支和远程分支
+```bash
+git branch -r # 检查远程分支状态
+
+# 1. 删除本地分支
+git branch -d <branch-name>
+# 如果分支尚未合并，则需要强制删除
+git branch -D <branch-name>
+
+# 2. 删除远程分支
+git push origin --delete <branch-name>
+
+# 3. 清理本地远程分支引用
+git remote prune origin
+
+# 完全同步本地和远程的状态
+git fetch --all --prune
+```
+
+# tcpdump 使用
+```bash
+tcpdump [option] proto dir type
+```
+- option 可选参数
+- proto 类过滤器: 根据协议过滤
+    - tcp, udp, icmp, ip, ip6, arp, rarp, ether, wlan, fddi, tr, decent
+- type 类过滤器: 后面需要接参数
+    - host, net, prot, protrange
+- direction 类过滤器: 根据数据流向进行过滤, 可以使用逻辑运算符来组合
+    - src, dst
+    - 如: src or dst
+
+**tcpdump 输出内容**
+```bash
+# 时分秒毫秒 网络协议 发送方的ip地址+端口 箭头表示数据流向 接收方的ip地址和端口 冒号 数据包内容
+21:26:49.013621 IP 172.20.20.1.15605 > 172.20.20.2.5920: Flags [P.], seq 49:97, ack 106048, win 4723, length 48
+```
+- 数据包内容中, 会包括 TCP 报文 Flags
+    - `[S]`: SYN (开始连接)
+    - `[P]`: PSH (推送数据)
+    - `[F]`: FIN (结束连接)
+    - `[R]`: RST (重置连接)
+    - `[.]`: 没有 Flag, 可能是 ACK/URG
+
+常用过滤规则
+- 基于host过滤
+- 基于网段过滤
+- 基于端口过滤
+- 基于协议过滤
+- 基于 ip 协议版本过滤
+
+可选参数解析
+
+过滤规则的组合
+
+
+https://www.cnblogs.com/wongbingming/p/13212306.html
+
+# HTTP 协议
+
+https://byvoid.com/zhs/blog/http-keep-alive-header/
