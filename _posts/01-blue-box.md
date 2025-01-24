@@ -1,10 +1,127 @@
 # Box 记录
+2025-01-24 14:46:00:
+- [Foundations of Large Language Models](https://arxiv.org/pdf/2501.09223)
+
 2025-01-14 10:32:43
 - `pub(crate) something` 表示在当前包可见，也就是可以直接在其他模块里使用 `use crate::something` 来导入对应 item(结构体、enum、模块)
 - 也可以使用完整的绝对路径进行引用
 
 Burn Book：https://burn.dev/burn-book/basic-workflow/index.html
 - Rust 写的深度学习框架
+## std::mem::forget 函数
+为什么在转换为迭代器后，不会调用 drop 函数
+- 因为在 into_iter 中使用了 `std::mem::forget` 函数
+
+`into_iter` 函数将一个集合转换为一个迭代器，它会获取集合的所有权。
+- 创建一个迭代器对象。
+- 将集合的所有权转移到迭代器中。
+- 防止集合的析构函数被自动调用（因为集合的所有权已经被转移）。
+
+`std::mem::forget` 是 Rust 标准库中的一个函数，它的作用是防止 Rust 自动调用析构函数。具体来说：
+- 当你调用 `forget(self)` 时，self 的所有权被“遗忘”，Rust 不会自动调用其析构函数。
+- 这通常用于手动管理资源的生命周期，例如在实现自定义迭代器时。
+
+函数原型
+```rust
+pub fn forget<T>(t: T)
+```
+
+使用场景：
+- 手动管理资源
+
+```rust
+use std::mem::forget;
+use std::ptr;
+
+struct MyResource {
+    data: *mut u8,
+}
+
+impl Drop for MyResource {
+    fn drop(&mut self) {
+        println!("Dropping MyResource");
+        unsafe { ptr::drop_in_place(self.data); }
+    }
+}
+
+fn main() {
+    let resource = MyResource { data: Box::into_raw(Box::new(42)) };
+    // 遗忘 resource，防止自动调用 Drop
+    forget(resource);
+    // 手动释放资源
+    unsafe {
+        println!("Manually dropping resource");
+        Box::from_raw(resource.data);  // 调用 Box 的析构函数
+    }
+}
+```
+- 与 FFI 交互：将资源传递给C代码时，防止 Rust 在外部的C代码仍然使用这些资源时自动释放它们。
+```rust
+use std::mem::forget;
+
+struct MyResource {
+    data: *mut u8,
+}
+impl Drop for MyResource {
+    fn drop(&mut self) {
+        println!("Dropping MyResource");
+        // 释放资源
+    }
+}
+fn pass_to_c(resource: MyResource) {
+    // 将资源传递给 C 代码
+    unsafe {
+        // 假设有一个 C 函数接收资源
+        // c_function(resource.data);
+    }
+    // 遗忘资源，防止自动调用 Drop
+    forget(resource);
+}
+fn main() {
+    let resource = MyResource { data: Box::into_raw(Box::new(42)) };
+    pass_to_c(resource);
+}
+```
+
+- 自定义迭代器
+```rust
+use std::mem::forget;
+
+struct MyCollection {
+    data: Vec<i32>,
+}
+impl Drop for MyCollection {
+    fn drop(&mut self) {
+        println!("Dropping MyCollection");
+    }
+}
+struct MyIterator {
+    data: Vec<i32>,
+    index: usize,
+}
+impl MyCollection {
+    fn into_iter(self) -> MyIterator {
+        let iter = MyIterator {
+            data: self.data,
+            index: 0,
+        };
+        // 遗忘原始集合，防止自动调用 Drop
+        forget(self);
+        iter
+    }
+}
+fn main() {
+    let collection = MyCollection { data: vec![1, 2, 3] };
+    let iter = collection.into_iter();
+
+    for item in iter {
+        println!("{}", item);
+    }
+}
+```
+
+forget 的主要作用是防止 Drop 函数被自动调用，用于需要手动管理资源的生命周期场景。
+
 ## 在存在Opensssl3.x版本的ubuntu上安装openssl1.1.1
 编译安装
 ```bash
@@ -311,22 +428,156 @@ if (cert_chain!= NULL) {
 ### 通过 openssl 生成公钥哈希值 pinnings
 [OH-network-http-文档](https://gitee.com/openharmony/docs/blob/master/zh-cn/application-dev/network/http-request.md#%E9%A2%84%E7%BD%AE%E8%AF%81%E4%B9%A6%E5%85%AC%E9%92%A5%E5%93%88%E5%B8%8C%E5%80%BC)
 
-```
+```bash
 # 从证书中提取出公钥
-openssl x509 -in www.example.com.pem -pubkey -noout > www.example.com.pubkey.pem
+openssl x509 -in rootCA.crt.pem -pubkey -noout > root.pubkey.pem
 # 将pem格式的公钥转换成der格式
-openssl asn1parse -noout -inform pem -in www.example.com.pubkey.pem -out www.example.com.pubkey.der
+openssl asn1parse -noout -inform pem -in root.pubkey.pem -out root.pubkey.der
 # 计算公钥的SHA256并转换成base64编码
-openssl dgst -sha256 -binary www.example.com.pubkey.der | openssl base64
+openssl dgst -sha256 -binary root.pubkey.der | openssl base64
 ```
 
-
+例子
+```
+root: sha256//9bk2UWmCEN3+zE2FcN0tLASEooDlvTjWXWlRM5ZRH/Q=
+server: sha256//5YxAVCGlRCZFMPYImcUznsT7UGG77XoWwjwRGE3YZTc=
+```
 
 ### 通过 openssl 生成证书链
 如何产生证书：https://www.cnblogs.com/dirigent/p/15246731.html
 
+服务器需要加入 key.pem, 与服务器证书对应, 用于产生签名，然后客户端可以使用服务器返回的证书来进行验证看签名是否正确
+- 服务器返回：
+    - 服务器的证书（也可以说包含在证书链里）
+    - 证书链
+    - 签名
+- 客户端需要验证三个都正确后才信任服务器
+    - 验证证书链
+    - 验证签名，确保证书和私钥匹配。
+    - 检查证书的有效性
 
 
+证书链的验证需要客户端需要导入 root-ca.pem, 信任手动创建的根证书文件用于测试
+
+结合 kimi 产生如何生成 openssl 证书链的命令如下，都生成 pem 格式：
+
+1. Root证书
+```bash
+# 1. 生成根密钥
+# openssl genpkey -algorithm RSA -out rootCA.key.pem -aes256
+# 然后输入 pem 密码: 1234
+# 以下命令生成没有密码的pem
+openssl genpkey -algorithm RSA -out rootCA.key.pem -pkeyopt rsa_keygen_bits:2048 
+# 等价于: openssl genrsa -out rootCA.key.pem 2048
+
+# 2. 创建根证书，10年有效期
+openssl req -x509 -new -nodes -key rootCA.key.pem -sha256 -days 3650 -out rootCA.crt.pem -subj "/C=CN/ST=Beijing/L=Beijing/O=RootCA/OU=RootCA/CN=RootCA"
+```
+> 根证书不需要创建签名请求（CSR）。根证书是自签名的，生成过程直接从私钥开始，而不是从 CSR 开始。
+
+如何移除现有私钥的密码
+```bash
+openssl rsa -in encrypted_private_key.pem -out decrypted_private_key.pem
+```
+
+2. Intermediate 证书
+创建文件 `extensions.cnf`，然后复制以下内容
+```ini
+[v3_ca]
+basicConstraints = CA:TRUE
+subjectAltName = @alt_names
+
+[alt_names]
+IP.1 = 127.0.0.1
+```
+
+```bash
+# 1. 生成中间密钥
+#openssl genpkey -algorithm RSA -out intermediateCA.key.pem -aes256
+# 生成没有密码
+openssl genpkey -algorithm RSA -out intermediateCA.key.pem -pkeyopt rsa_keygen_bits:2048
+
+# 2. 创建中间证书签名请求（CSR）
+openssl req -new -key intermediateCA.key.pem -out intermediateCA.csr.pem -subj "/C=CN/ST=Beijing/L=Beijing/O=IntermediateCA/OU=IntermediateCA/CN=IntermediateCA"
+
+# 3. 使用根证书签署中间证书
+openssl x509 -req -in intermediateCA.csr.pem -CA rootCA.crt.pem -CAkey rootCA.key.pem -CAcreateserial -out intermediateCA.crt.pem -days 3650 -sha256 -extfile extensions.cnf -extensions v3_ca
+```
+
+3. Server 证书
+创建文件 `server_extensions.cnf`，拷贝以下内容：
+```ini
+[server_ext]
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage=digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName=@alt_names
+
+[alt_names]
+IP.1 = 127.0.0.1
+```
+```bash
+# 1. 生成服务器密钥
+# openssl genpkey -algorithm RSA -out server.key.pem -aes256
+openssl genpkey -algorithm RSA -out server.key.pem -pkeyopt rsa_keygen_bits:2048
+
+# 2. 创建服务器证书签名请求（CSR）
+openssl req -new -key server.key.pem -out server.csr.pem -subj "/C=CN/ST=Beijing/L=Beijing/O=Server/OU=Server/CN=127.0.0.1"
+
+# 3. 使用中间证书签署服务器证书
+openssl x509 -req -in server.csr.pem -CA intermediateCA.crt.pem -CAkey intermediateCA.key.pem -CAcreateserial -out server.crt.pem -days 365 -sha256 -extfile server_extensions.cnf -extensions server_ext
+```
+
+验证：
+```bash
+# 打印
+openssl x509 -in rootCA.crt.pem -text -noout
+
+# 验证中间证书
+openssl verify -CAfile rootCA.crt.pem intermediateCA.crt.pem
+
+# 验证证书链
+openssl verify -CAfile rootCA.crt.pem -untrusted intermediateCA.crt.pem server.crt.pem 
+```
+
+最后的文件:
+```bash
+certs
+├── extensions.cnf
+├── intermediateCA.crt.pem
+├── intermediateCA.csr.pem
+├── intermediateCA.key.pem
+├── rootCA.crt.pem
+├── rootCA.key.pem
+├── server.crt.pem
+├── server.csr.pem
+├── server.key.pem
+└── server_extensions.cnf
+
+0 directories, 10 files
+```
+创建证书链
+```bash
+cat rootCA.crt.pem intermediateCA.crt.pem server.crt.pem > chain.crt.pem
+# 验证
+openssl verify -CAfile rootCA.crt.pem chain.crt.pem
+```
+
+**但是在 OpenSSL 的函数 `SSL_CTX_use_certificate_chain_file` 中使用的使用，需要反过来**:
+```bash
+cat server.crt.pem intermediateCA.crt.pem rootCA.crt.pem > chain.crt.pem
+```
+然后在函数里面通过才能成功，不然会报以下错误
+```c
+// 加载证书链文件
+if (SSL_CTX_use_certificate_chain_file(ctx, "path/to/chain.pem") != 1) {
+    ERR_print_errors_fp(stderr);
+    return -1;
+}
+//Error
+called `Result::unwrap()` on an `Err` value: Error { code: ErrorCode(1), cause: Some(Ssl(ErrorStack([Error { code: 167772353, library: "SSL routines", function: "tls_post_process_client_hello", reason: "no shared cipher", file: "../ssl/statem/statem_srvr.c", line: 2220 }]))) }
+Request send failed: HttpClientError { ErrorKind: Connect, Cause: Custom { kind: Other, error: SslError { code: SslErrorCode(1), internal: Some(Ssl(ErrorStack([StackError { code: 167773200, file: "../ssl/record/rec_layer_s3.c", line: 1593, func: Some("ssl3_read_bytes"), data: Some("SSL alert number 40") }]))) } } }
+```
 
 ## 多个版本的gcc，改变 gcc 的优先级
 ```bash
