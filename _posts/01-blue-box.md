@@ -8,7 +8,7 @@
 
 Burn Book：https://burn.dev/burn-book/basic-workflow/index.html
 - Rust 写的深度学习框架
-## **http 自动解压缩**
+# **http 自动解压缩**
 libcurl: 客户端可以通过 `Accept-Encoding` 来告诉服务器，它支持的压缩算法
 - deflate（zlib 算法）
 - gzip
