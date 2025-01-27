@@ -1,6 +1,6 @@
 ---
-title: 2025-01-26-生成openssl证书链和公钥pinnings.md
-tags: Archive vscode configuration 
+title: 生成openssl证书链和公钥pinnings
+tags: Archive Configuration Openssl
 ---
 
 
