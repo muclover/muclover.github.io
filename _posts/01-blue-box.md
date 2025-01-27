@@ -29,3 +29,421 @@ curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, string);
 
 curl 需要使用 `--compressed` 来支持自动解压缩
 
+# Rust 的 println! 格式化
+在 Rust 中，格式化参数是通过一系列占位符和相应的参数值来实现的。比如：
+```rust
+let hello = "hello"
+let world = "world"
+println!("{},{}", hello, world);
+```
+
+一个格式参数的完整形式是 {which:how}，其中的 which 和 how 都是可选的。
+- which 用于指定要格式化的特定参数，可以通过索引下标或者名称来选择。如果没有指定which，则默认按照参数列表的顺序，从 0 到 n 自动选择参数。例如：
+```rust
+// 使用索引
+println!("{0} {1} {} {}", 66, 77);// 等同于println!("{0} {1} {2} {3}", 66, 77, 66, 77);
+// 命名参数来个性化参数列表，但是如果同时使用索引和命名参数，那么命名参数必须放在最后。
+println!("{days}天有{hours}小时", days=1, hours=24);
+```
+- how，它定义了参数的格式化方式，例如对齐方式、浮点数的精度、数值基数等
+
+文本类型的格式化
+- fill: 填充字符，用于当内容的宽度小于所需的最小宽度时进行填充，默认是空格。
+- align: 对齐方式，其中 < 代表左对齐，> 代表右对齐，^ 代表居中对齐，默认是左对齐。
+- width: 指定最小宽度，如果内容的长度小于此宽度，将根据设置的对齐方式用填充字符补充。
+- precision: 对于字符串，它指定了最大输出宽度。如果字符串的长度超出这个值，会根据最大宽度截断字符串。
+
+```rust
+// 格式 {:[fill][align][width][.precision]}
+println!("{:>8}", "foo"); // 输出 "     foo"，默认使用空格填充以及右对齐
+println!("{:*>8}", "foo"); // 输出 "*****foo"，使用 '*' 填充并右对齐
+println!("{:*<8}", "foo"); // 输出 "foo*****"，使用 '*' 填充并左对齐
+println!("{:*^8}", "foo"); // 输出 "**foo***"，使用 '*' 填充并居中对齐
+```
+
+数值类型
+```rust
+// {:[fill][align][sign][#][0][width][.precision][type]}
+
+    // 格式化整数
+    println!("{:04}", 42); // 输出：0042
+    println!("{:+}", 42); // 输出：+42
+    println!("{:#x}", 255); // 输出：0xff
+    println!("{:#b}", 5); // 输出：0b101
+    println!("{:0>5}", 14); // 输出：00014
+
+    // 格式化浮点数
+    println!("{:.*}", 2, 1.234567); // 输出：1.23
+    println!("{:+.2}", 3.141592); // 输出：+3.14
+    println!("{:.2}", 3.141592); // 输出：3.14
+    println!("{:10.4}", 1234.56); // 输出："   1234.5600"，宽度为10，小数点后4位
+    println!("{:0>10.4}", 1234.56); // 输出："0001234.5600"，填充0，宽度为10，小数点后4位
+
+    // 格式化时使用特定的填充字符
+    println!("{:*>10}", 42); // 输出：********42
+    println!("{:.*}", 2, 1.234567); // 输出：1.23
+```
+
+参考：
+https://www.cnblogs.com/RioTian/p/18145045
+
+
+# Sans-io
+通过实现没有任何 I/O 的网络协议，而只对字节或文本进行操作，库允许其他代码重用，而不管它们的 I/O 决策如何。
+
+tokio：处理异步任务
+tungstenite：WebSockets
+boringtun：WireGuard
+rustls：加密API的流量
+
+connlib底层，没有调用 tokio::spawn，所有的通信通过单个 UDP socket 来进行复用，同样的 API 出现在不同层 `handle_timeout`, `poll_transmit`, `handle_input`，这是 sans-IO 的特征。
+
+不会通过 socket 在多个地方发送/接收字节，而是作为一个纯状态机实现。甚至时间也被抽象了：每个需要知道当前时间的函数都会接收到一个Instant参数，而不是自己调用Instant::now。
+
+> 下面的库都使用 sans-IO：
+> - quinn: an independent QUIC implementation.
+> - quiche: cloudflare's QUIC implementation.
+> - str0m: a sans-IO WebRTC implementation.
+
+介绍 sans-IO 设计和优势。
+
+Rust 异步模型和函数着色
+- 函数着色：异步函数只能被另一个异步函数调用，也就是对函数着色
+    - 突出的一点是能够暂停执行并在稍后恢复是函数API中相当重要的一部分。Rust在编译时强制执行这一点是件好事。
+- 这种约束的一个结果是，堆栈深处的异步函数会“迫使”每个调用函数也变成异步的，以便等待 `.await` 内部函数。如果你想要调用的代码实际上并不是你的，而是一个你引入的依赖项，这可能会有问题。
+
+有些人认为这是一个问题，他们希望能够编写与依赖项的“异步性”无关的代码。这种担忧是有道理的。最终，在每个异步调用堆栈的最底层都有一个需要在某处暂停的Future。通常，这是某种形式的IO，比如写入套接字、从文件中读取、等待时间推进等。
+
+**然而，大多数异步函数实际上并不执行异步工作**。它们之所以是异步的，是因为它们依赖于其他异步函数。围绕这些内部异步函数的代码通常也可以在阻塞上下文中工作，但你的依赖项的作者碰巧选择了异步版本。
+
+
+让我们来看一个这个问题的例子。Firezone的连接库connlib使用ICE进行NAT遍历，作为其中的一部分，我们利用STUN来发现我们的服务器反射候选地址，即我们的公共地址。
+> teractive Connectivity Establishment (ICE): A Protocol for Network Address Translator (NAT) Traversal
+> - rfc8445
+
+STUN是一种二进制消息格式，STUN binding 是一个相当简单的协议：向服务器发送一个UDP数据包，服务器记录它看到的发送套接字的IP+端口，并发送一个包含该地址的UDP数据包作为回应。
+
+```rust
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    let socket = UdpSocket::bind("0.0.0.0:0").await?;
+    socket.connect("stun.cloudflare.com:3478").await?;
+    socket.send(&make_binding_request()).await?;
+
+    let mut buf = vec![0u8; 100];
+    let num_read = socket.recv(&mut buf).await?;
+    let address = parse_binding_response(&buf[..num_read]);
+
+    println!("Our public IP is: {address}");
+
+    Ok(())
+}
+```
+也可以使用标准库 std 中的阻塞 IO 形式：
+```rust
+fn main() -> anyhow::Result<()>  {
+    let socket = UdpSocket::bind("0.0.0.0:0")?;
+    socket.connect("stun.cloudflare.com:3478")?;
+    socket.send(&make_binding_request())?;
+
+    let mut buf = vec![0u8; 100];
+    let num_read = socket.recv(&mut buf)?;
+    let address = parse_bingding_response(&buf[..num_read]);
+
+    println!("Our public IP is: {address}");
+
+    Ok(())
+}
+```
+> example:  https://github.com/firezone/sans-io-blog-example
+
+注意，上面两段代码几乎完全相同，除了使用了async。如果我们想编写一个允许你执行STUN的库，我们就必须决定使用其中一种，或者包含两者。关于解决这种重复的最佳方式，有很多不同的观点。编写sans-IO代码是其中一种方法。
+
+## sans-IO 介绍
+sans-IO的核心思想与面向对象编程中的**依赖倒置原则**相似。尽管有些面向对象的代码在遵循模式方面可能有些极端（比如AbstractSingletonProxyFactoryBean），但我发现明确阐述这些内容有助于真正理解特定设计的精髓。
+
+依赖倒置原则指出，策略（做什么）不应依赖于实现细节（如何做）。相反，两个组件应该通过抽象来依赖和通信。换句话说，决定在网络上发送消息的代码片段（即策略）不应依赖于实际发送消息的代码（即实现）。
+
+这就是上述例子中的核心问题：我们**在UDP套接字的基础上组合了我们的策略代码**，因此，迫使上面的一切要么是异步的(tokio例子)，要么处理阻塞IO(std例子)。策略代码是相同的，但我们想要测试的是它，并且可能通过库与他人共享，无论我们是否使用阻塞或非阻塞IO。
+
+## 使用依赖倒置
+引入抽象层，但我们调用 `UdpSocket::send` 时，实际上传输的数据是: payload数据, `ScoketAddr` 目的地址和 socket 本身（隐式传递）。socket 可以使用 `SocketAddr` 来表示：在应用中较早绑定的那个。
+将这 3 个数据抽象为下面的结构：
+```rust
+pub struct Transmit {
+    dst: SocketAddr,
+    payload: Vec<u8>
+}
+
+```
+在我们想要通过 `UdpSocket` 发送数据时，我们都应该发出一个 `Transmit`。
+
+但这只是解决方案的一半，另一半是：我们需要在某个地方执行这个Transmit
+
+回想一下依赖倒置原则的定义：策略不应依赖于实现，而是两者都应依赖于抽象。`Transmit` 是我们的抽象，重写策略代码来使用它。实际的实现细节，即 `UdpSocket` 也需要知道这个新抽象 `Transmit`。
+
+这就是事件循环的用武之地。sans-IO代码需要被“驱动”，几乎类似于Rust中的Future是惰性的，需要被运行时轮询以取得进展。
+
+
+事件循环是我们副作用的实现，将实际调用 `UdpSocket::send`，这样，其余的代码变成了一个状态机，只表达在给定时刻应该发生什么。
+
+### 状态机
+![state machine](/images/01-blue-box/image.png)
+
+不直接执行发送消息的副作用，我们需要重写代码，使其更接近它实际的样子：这个状态机。
+正如我们在图中看到的，我们有2个状态（不包括入口和出口状态）：已发送和已接收。这些是互斥的，因此我们可以将它们建模为一个枚举类型。
+```rust
+enum State {
+    Sent,
+    Received { address: SocketAddr },
+}
+```
+增加一些功能：
+
+```rust
+struct StunBinding {
+    state: State,
+    buffered_transmits: VecDeque<Transmit>,
+}
+
+impl StunBinding {
+    fn new(server: SocketAddr) -> Self {
+        Self {
+            state: State::Sent,
+            buffered_transmits: VecDeque::from([Transmit {
+                dst: server,
+                payload: make_binding_request(),
+            }]),
+        }
+    }
+
+    fn handle_input(&mut self, packet: &[u8]) {
+        // Error handling is left as an exercise to the reader ...
+        let address = parse_binding_response(packet);
+
+        self.state = State::Received { address };
+    }
+
+    fn poll_transmit(&mut self) -> Option<Transmit> {
+        self.buffered_transmits.pop_front()
+    }
+
+    fn public_address(&self) -> Option<SocketAddr> {
+        match self.state {
+            State::Sent => None,
+            State::Received { address } => Some(address),
+        }
+    }
+}
+```
+`handle_input` 函数就像是 `Transmit` 的反向操作。使用它来将传入的数据即: `UdpSocket::recv` 的结果，输入到我们的状态机中。还添加了一些辅助函数，用于实际构造我们状态机的新实例，并从中查询事物。有了这些，我们现在有了一个状态机，它模拟了我们程序的行为，但不执行任何 IO 操作。
+### 事件循环
+没有事件循环，这个状态机什么也不做。对于这个例子，我们可以使用一个相当简单的事件循环：
+```rust
+fn main() -> anyhow::Result<()> {
+    let socket = UdpSocket::bind("0.0.0.0:0")?;
+    let server = "stun.cloudflare.com:3478"
+        .to_socket_addrs()?
+        .next()
+        .context("Failed to resolve hostname")?;
+    // 1. crate StunBinding
+    let mut binding = StunBinding::new(server);
+
+    // 2. event loop    
+    let address = loop {
+        if let Some(transmit) = binding.poll_transmit() {
+            socket.send_to(&transmit.payload, transmit.dst)?;
+            continue;
+        }
+
+        let mut buf = vec![0u8; 100];
+        let num_read = socket.recv(&mut buf)?;
+
+        binding.handle_input(&buf[..num_read]);
+
+        if let Some(address) = binding.public_address() {
+            break address;
+        }
+    };
+
+    println!("Our public IP is: {address}");
+
+    Ok(())
+}
+
+```
+通用性：**事件循环不对STUN绑定协议的细节做任何假设**。它不知道它是请求-响应的，例如: 事件循环的角度来看，在我们能够确定我们的公共地址之前，可能需要多条消息。
+
+UDP 是一种不可靠的协议，这意味着我们的数据包可能会在传输过程中丢失。为了缓解这种情况，STUN 规定了**重传定时器**。事实证明，在这个事件循环中添加时间是相当简单的。
+
+### 时间的抽象
+在大多数情况下，尤其是在网络协议中，需要访问当前时间来检查是否已经过了一段时间。例如，我们发送请求后是否已经过了5秒以上？另一个常见的情况是保持活动消息：我们发送最后一条保持活动消息后是否已经过了30秒以上？在所有这些情况下，我们实际上不需要知道当前的时钟时间。**我们只需要一个从之前某个时间点开始的持续时间（Duration）**。
+
+Rust在这里为我们提供了一个非常方便的抽象：Instant。Instant不暴露当前时间，但它允许我们测量两个Instant之间的时间间隔（Duration）。我们可以用两个足够通用的API扩展我们的状态机，以满足我们所有基于时间的需求：poll_timeout和handle_timeout。
+
+```rust
+impl StunBinding {
+    // ...
+
+    /// Notifies `StunBinding` that time has advanced to `now`.
+    fn handle_timeout(&mut self, now: Instant) {}
+
+    /// Returns the timestamp when we next expect `handle_timeout` to be called.
+    fn poll_timeout(&self) -> Option<Instant> {
+        None
+    }
+
+    // ...
+}
+
+```
+类似于handle_input和poll_timeout，这些API是**协议代码和事件循环之间的抽象**：
+- poll_timeout：由事件循环用来安排一个定时器以唤醒。
+- handle_timeout：由事件循环用来通知状态机定时器已到期。
+
+为了演示目的，假设我们想在收到最后一个绑定请求后每5秒发送一个新的绑定请求。以下是实现方法：
+```rust
+impl StunBinding {
+    // ...
+
+    /// Notifies `StunBinding` that time has advanced to `now`.
+    fn handle_timeout(&mut self, now: Instant) {
+        let last_received_at = match self.state {
+            State::Sent => return,
+            State::Received { at, .. } => at,
+        };
+
+        if now.duration_since(last_received_at) < Duration::from_secs(5) {
+            return;
+        }
+
+        self.buffered_transmits.push_front(Transmit {
+            dst: self.server,
+            payload: make_binding_request(),
+        });
+        self.state = State::Sent;
+    }
+
+    /// Returns the timestamp when we next expect `handle_timeout` to be called.
+    fn poll_timeout(&self) -> Option<Instant> {
+        match self.state {
+            State::Sent => None,
+            State::Received { at, .. } => Some(at + Duration::from_secs(5)),
+        }
+    }
+
+    // ...
+}
+```
+我所做的其他唯一更改是在State::Received变体中添加了一个at字段，该字段在handle_input时设置为当前时间。
+
+```rust
+impl StunBinding {
+    fn handle_input(&mut self, packet: &[u8], now: Instant) {
+        let address = parse_binding_response(packet);
+        self.state = State::Received { address, at: now };
+    }
+}
+```
+
+更新后的状态机
+![alt text](/images/01-blue-box/image-1.png)
+
+事件循环也略有变化。现在我们不会在知道我们的公共IP后就退出，而是会循环直到用户退出程序。
+```rust
+    loop {
+        if let Some(transmit) = binding.poll_transmit() {
+            socket.send_to(&transmit.payload, transmit.dst).await?;
+            continue;
+        }
+
+        let mut buf = vec![0u8; 100];
+
+        tokio::select! {
+            Some(time) = &mut timer => {
+                binding.handle_timeout(time);
+            },
+            res = socket.recv(&mut buf) => {
+                let num_read = res?;
+                binding.handle_input(&buf[..num_read], Instant::now());
+            }
+        } // 第一次会等待 recv，然后等待定时器完成，完成后调用
+
+        timer.reset_to(binding.poll_timeout()); // 第一次完成后，就会开始启动定时器，然后发送数据
+
+        if let Some(address) = binding.public_address() {
+            println!("Our public IP is: {address}");
+        }
+    }
+```
+
+### sans-IO 的假设
+到目前为止，所有这些似乎都是为了发送几个UDP数据包来回而带来的过度开销。当然，开头介绍的那个10行代码的例子比这个状态机和事件循环更受欢迎！
+
+这个例子可能如此，但回想一下围绕函数着色的争论。在一个没有依赖项的代码片段中，如上面的例子，使用异步似乎是一个显而易见且非常简单的选择。
+
+问题在于，**一旦你想要引入依赖项**，情况就不同了。在这些依赖项之上构建你的功能（即策略）会将它们关于异步与阻塞IO的决策强加给你。像str0m或quinn-proto这样的库，它们以无IO的方式编写，就不会这样做。相反，它们是纯粹的状态机，因此**关于异步与阻塞IO或使用哪个异步运行时的决策被推迟到了应用程序层面**
+
+使用阻塞或非阻塞IO的自由并不是这种设计的唯一好处。sans-IO设计还具有很好的**组合性**，倾向于拥有**非常灵活的API**，**易于测试**，并且**与Rust的特性配合得很好**。
+
+### 组合性
+再看看 `StunBinding` 的API。暴露给事件循环的主要函数是：`handle_timeout`、`handle_input`、`poll_transmit` 和 `poll_timeout`。这些函数都不是特定于 STUN 领域的，大多数网络协议都可以用这些或它们的某种变体来实现。因此，将这些状态机组合在一起非常容易：想查询5个STUN服务器以获取你的公共IP吗？没问题。只需创建5个StunBinding并按顺序调用它们即可。
+
+
+在 Firezone 的情况下，你可以在 snownet 的例子中看到这一点，snownet 是一个结合了 ICE 和 WireGuard 的库，从而向应用程序的其余部分暴露了“神奇”的IP隧道，这些隧道可以在任何网络设置中工作。
+
+snownet 建立在 str0m (一个无IO的 WebRTC 库)，以及boringtun(一个（几乎）无IO的WireGuard实现)之上。然而，我们并不需要 WebRTC 堆栈的大部分。我们唯一感兴趣的是实现了RFC 8445 的 IceAgent。
+
+ICE使用了一种巧妙的算法，部署在任意网络环境中的两个代理找到彼此之间最优化的通信路径。ICE的结果是一对套接字地址，我们随后用它们来设置 WireGuard 隧道。因为 str0m 是以无IO的方式构建的，只使用 IceAgent 非常简单：你只需导入库的那部分，并将它的状态机组合到你现有的代码中。在snownet中，一个连接简单地包含一个 IceAgent 和一个 WireGuard 隧道，将传入的消息分派给其中的一个或另一个。
+
+### 灵活的API
+sans-IO代码需要被某种事件循环“驱动”，因为它“仅仅”表达了系统的状态，但不会自己引起任何副作用。事件循环负责“查询”状态（如poll_transmit），执行它，并且还将新输入传递给状态机（`handle_timeout` 和 `handle_input`）。对某些人来说，这可能看起来是不必要的代码，但它带来了巨大的好处：灵活性。
+
+想使用sendmmsg来减少发送数据包时的系统调用数量？没问题。
+想在一个套接字上多路复用多个协议？没问题。
+
+自己编写事件循环是一个机会，可以让我们精确地调整代码以实现我们想要的功能。这也使得库作者的维护工作更容易：他们可以专注于正确实现协议功能，而不是围绕异步运行时进行争论或暴露设置套接字选项的API。
+
+一个很好的例子是 str0m 对枚举网络接口的立场：这是一个IO问题，由应用程序决定如何实现。str0m 只提供一个API，将套接字地址作为ICE候选添加到当前状态。因此，我们能够轻松实现优化，例如在任何连接建立之前收集TURN候选，从而减少Firezone的连接设置延迟。
+
+### 快速测试
+sans-IO代码本质上是无副作用的，因此非常适合进行（单元）测试。由于套接字和时间都被抽象化了，因此可以轻松地编写测试，瞬间将时间向前推进5分钟。我们只需要将修改后的 `Instant` 传递给我们的函数，并断言代码的行为。
+
+要查看一个现实世界的例子，请查看我们如何测试snownet在5分钟后关闭空闲连接。
+同样，实际通过套接字发送数据需要（一点）时间，更重要的是，需要分配端口等。在sans-IO的世界里，“在测试中发送数据”就像从 B 方取出一个 `Transmit` 并在 A 方的状态上调用 `handle_input` 一样简单，无需通过网络套接字。
+
+在Firezone，我们将这个想法又推进了一步。我们实现了一个参考状态机，描述了我们希望 connlib 如何工作。这个参考状态机在我们的测试中作为真理的来源。然后，我们利用 proptest 对状态机测试的支持，在每次CI运行中确定性地采样和执行数千种场景，并将参考状态机与connlib的实际状态进行比较。
+
+### 边缘情况和IO错误
+我们不仅可以轻松测试代码在特定时间点的反应，而且由于没有IO，测试IO故障和/或奇怪行为也变得非常容易！
+如果这个数据包丢失，我们从未收到响应，会发生什么？
+如果收到格式错误的响应，会发生什么？
+如果到服务器的往返时间（RTT）非常长，会发生什么？
+如果我们没有一个功能正常的IPv6接口，会发生什么？
+如果我们只有一个IPv6接口，会发生什么？
+通过将协议实现与实际的IO副作用解耦，我们被迫回到设计阶段，设计我们的状态机以抵御这些问题。因此，检测和处理错误仅仅是状态机输入处理的一部分，这使得代码更加健壮，并且不太可能只在事后才考虑边缘情况。
+
+### Rust + sans-IO：天作之合？
+Rust 强制我们声明代码中的哪个组件或函数拥有某个值。一个常见的例子是缓冲区：从 UdpSocket 读取时，我们需要提供一个 &mut [u8] 作为接收实际字节的地方。只有值的所有者才能声明它为可变的，从而可以自行修改，或者临时将可变引用传递给其他函数。UdpSocket 遵循这种设计：它不会自行声明一个缓冲区，而是在实际从套接字读取时，仅要求对它进行临时的、可变的访问。所有权和可变性的明确建模是 Rust 工作方式的核心，也是启用借用检查器等功能的原因。
+在无 IO 设计中，我们只有同步 API，即状态机上的函数永远不会因 IO 或时间而阻塞。相反，它们只是数据结构。
+
+这两个方面结合得非常好。我们可以自由地使用 &mut 来表达状态变化，从而利用借用检查器确保代码的正确性。相比之下，异步 Rust 和 &mut 似乎有些不协调。
+在 Rust 中，异步函数只是实现 Future 的数据结构的语法糖。将 Future 启动到像 tokio 这样的运行时需要这个数据结构是 'static 的，因此它不能包含任何引用，包括 &mut。要修改不属于 Future 的状态，你基本上有两个选择：
+使用引用计数指针和互斥锁，即 Arc<Mutex<T>>
+
+使用“演员”并通过通道连接它们，即启动多个带有循环的任务，这些任务读取和写入通道
+这两种选择都有运行时开销：锁可能导致竞争，通过通道发送消息需要复制。此外，在运行时内运行的多个任务以非确定性顺序运行，这很容易导致竞争条件，最坏的情况下会导致死锁。看来，无论选择哪种方式，我们都会得到一个感觉脆弱、容易死锁且不再使用零成本抽象的设计，而避免所有这些问题是我们在一开始就想要使用 Rust 的原因之一！
+在无 IO 世界中，这些问题不存在。我们的协议代码不会启动任何任务，因此，&mut self 就是我们修改状态所需的一切。没有任务或线程，我们也不需要像互斥锁这样的同步原语。没有通道，就没有必要复制数据：状态机可以直接引用我们传递给套接字的缓冲区。
+最后但同样重要的是，自从我们转向无 IO 以来，我们的代码变得更加易于理解。不再需要追踪：这个通道的另一端在哪里？如果通道关闭了怎么办？还有哪些代码正在锁定这个互斥锁？相反，一切都是嵌套的状态机和普通的函数调用。
+### 缺点
+没有银弹，无IO也不例外。虽然编写自己的事件循环可以给你很大的控制权，但也可能导致最初难以发现的微妙错误。
+例如，状态机中的一个错误，其中从poll_timeout返回的值没有向前推进，可能导致事件循环中的忙循环行为。
+此外，顺序工作流需要编写更多的代码。在Rust中，异步函数编译成状态机，每个.await点代表转换到不同状态。这使得开发人员可以轻松地编写与非阻塞IO一起的顺序代码。没有异步，我们需要自己编写状态机来表达各个步骤。在实践中，这有多烦人取决于你的问题领域。正如我们在StunBinding的例子中看到的，建模一个请求-响应协议并不难。另一方面，如果需要表达更大、顺序的工作流，手动将它们建模为状态机可能会变得繁琐。
+最后，无IO设计在Rust社区中尚未广泛传播。因此，遵循它的库非常少。大多数库将实现阻塞或非阻塞IO，而不是无IO。
+
+编写无IO代码起初会有些不寻常，但一旦掌握了，就会变得非常愉快。部分原因是Rust提供了出色的工具来建模状态机。更重要的是，无IO迫使你像处理任何其他输入一样处理错误，这感觉就像是编写网络代码的正确方式。
+话虽如此，还有其他一些在本文中未讨论的编写异步Rust的方法。其中最值得注意的是结构化并发，它介于无IO和本文中描述的异步Rust之间。阅读withoutboats的这篇文章可以了解更多关于这个主题的内容。
+
+参考：
+https://www.firezone.dev/blog/sans-io
+https://sans-io.readthedocs.io/
