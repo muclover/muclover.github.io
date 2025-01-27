@@ -1,6 +1,8 @@
 ---
 title: gcc 多个版本优先级配置，Python3设置为默认版本
 tags: Archive OpenHarmony Configuration
+aside:
+ toc: true
 ---
 
 ## 多个版本的gcc，改变 gcc 的优先级

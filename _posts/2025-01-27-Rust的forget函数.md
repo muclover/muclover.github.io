@@ -1,11 +1,10 @@
 ---
 title: Rust 中的 std::mem::forget 函数
 tags: Archive Rust Basic
-# sidebar:
-#  nav: rust
-# published: false
-# aside:
-#  toc: true
+sidebar:
+ nav: rust
+aside:
+ toc: true
 ---
 ## std::mem::forget 函数
 为什么在转换为迭代器后，不会调用 drop 函数
