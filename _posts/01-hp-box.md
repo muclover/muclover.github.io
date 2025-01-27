@@ -31,3 +31,24 @@ rust 的内存布局视频：https://www.youtube.com/watch?v=7_o-YRxf_cc
 
 Rust组合器选择的网址：https://rustcombinators.com/
 - 当你有一个 `Option<T>` 或者 `Result<T,E>`，需要获取 `T` 或者 `E` 时，你应该怎么做
+
+
+# sysinfo 库
+[深入浅出：Rust sysinfo 库实战指南](https://mp.weixin.qq.com/s?__biz=MjM5OTc0NTUxMg==&mid=2452977070&idx=1&sn=aae88895e21d43f9a714d0cedd812e52&chksm=b0f7172987809e3fbae25fe908c86981c13727748a0431852bcaf2e9482c04392a1545a354cc&cur_album_id=3824647361294991361&scene=190#rd)
+
+[sysinfo](https://crates.io/crates/sysinfo)
+
+sysinfo库则为 Rust 开发者提供了一个跨平台(Linux, Windows, IOS, Android, FreeBSD, MacOS等)的解决方案，用于获取系统信息，如：
+- 进程信息
+- CPU 使用情况
+- 磁盘信息
+- 系统组件信息
+- 网络信息
+
+使用
+```toml
+[dependencies]
+sysinfo = "0.33.1"
+```
+
+
