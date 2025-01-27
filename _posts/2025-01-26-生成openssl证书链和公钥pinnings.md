@@ -2,7 +2,7 @@
 title: 生成openssl证书链和公钥pinnings
 tags: Archive Configuration Openssl
 aside:
- toc: true
+  toc: true
 ---
 
 

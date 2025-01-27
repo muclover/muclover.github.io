@@ -4,7 +4,7 @@ tags: Archive Rust Basic
 sidebar:
  nav: rust
 aside:
- toc: true
+  toc: true
 ---
 ## std::mem::forget 函数
 为什么在转换为迭代器后，不会调用 drop 函数
